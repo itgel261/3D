@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
             label: 'Pemegang Saham',
             data: [82, 18],
             backgroundColor: [
-                'rgb(101, 224, 206)',  
-                'rgb(255, 205, 86)'   
+                'rgb(65, 180, 102)',  
+                'rgb(69, 241, 124)'   
             ],
             borderColor: [
-                'rgb(101, 224, 206)',
-                'rgb(255, 205, 86)'
+                'rgb(65, 180, 102)',
+                'rgb(69, 241, 124)'
             ],
             hoverOffset: 4
         }]
