@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https:cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="../../asset/style.css">
+	<link rel="icon" href="../../img/IAPP.png" type="image/x-icon"/>
+	<title>SAMUDERA INTI PASIFIK | Karyawan</title>
+    <style>
+		body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url(../../img/bg.jpg);
+            background-size: cover;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header .icons {
+            display: flex;
+            align-items: center;
+        }
+        .header .icons .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .header .icons .dropdown input[type="checkbox"] {
+            display: none;
+        }
+        .header .icons .dropdown .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #333;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 8px; /* Rounded corners */
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, box-shadow 0.3s;
+            padding: 5px 0; /* Reduced padding for a smaller box */
+            width: 150px; /* Adjusted width */
+        }
+        .header .icons .dropdown input[type="checkbox"]:checked ~ .dropdown-content {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+        }
+        .header .icons .dropdown .dropdown-content a {
+            color: white;
+            padding: 8px 12px; /* Reduced padding for a smaller link */
+            text-decoration: none;
+            display: flex; /* Use Flexbox to align items */
+            align-items: center; /* Center items vertically */
+            border-radius: 4px; /* Rounded corners for each item */
+            font-size: 14px; /* Smaller font size */
+            transition: background-color 0.3s, padding 0.3s; /* Smooth transition for background color and padding */
+        }
+        .header .icons .dropdown .dropdown-content a:hover {
+            background-color: #a07708; /* Background color on hover */
+            padding: 8px 16px; /* Slightly increased padding on hover for a button-like effect */
+        }
+        .header .icons .dropdown .dropdown-content img {
+            margin-right: 8px; /* Reduced margin */
+            height: 20px; /* Smaller height for images */
+            width: 20px; /* Smaller width for images */
+            border-radius: 4px; /* Optional: round corners of the image */
+        }
+        .header .icons i {
+            color: white;
+            font-size: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .header .icons i:hover {
+            opacity: 0.8;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-align: center;
+            width: 100%;
+        }
+        .header h1 a {
+            text-decoration: none;
+            color: white;
+        }
+        .container {
+            margin-top: 80px; /* Adjust based on header height */
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            backdrop-filter: blur(2px); /* Apply blur effect */
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Arrange children vertically */
+            justify-content: space-between; /* Space between header and body */
+        }
+
+        .card-header {
+            background-color: rgba(52, 117, 236, 0.8); /* Semi-transparent blue */
+            color: #000000;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Center align content horizontally */
+            align-items: center; /* Center align content vertically */
+            flex-grow: 1; /* Allow body to grow */
+        }
+
+        .card-body-container {
+            max-width: 100%; /* Ensure image doesn't exceed its container */
+            height: auto; /* Maintain aspect ratio */
+            display: flex; /* Center align image */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+
+        .card-body img {
+            max-width: 100%; /* Ensure image doesn't exceed its container */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px; /* Optional: Rounded corners for image */
+        }
+                /* Styles for modal */
+                .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 10000px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: zoom 0.6s;
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+            to {
+                transform: scale(1)
+            }
+        }
+
+        .close {
+            color: white;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #999;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="icons">
+            <a href="../../index.html">
+            <i class="fa fa-home"></i></a>
+            <div class="dropdown">
+                <input type="checkbox" id="dropdown-toggle">
+                <label for="dropdown-toggle">
+                    <i class="fa fa-bars"></i>
+                </label>
+                <div class="dropdown-content">
+                    <a href="../gel/gel.html"><img src="../../img/GEL.png" style="height: 25px; width: 25px;">GEL</a>   
+                    <a href="../gsm/gsm.html"><img src="../../img/GSM.png" style="height: 25px; width: 25px;">GSM</a>
+		        	<a href="../gsj/gsj.html"><img src="../../img/GSJ.png" style="height: 25px; width: 25px;">GSJ</a>
+					<a href="../kmc/kmc.html"><img src="../../img/KMC.png" style="height: 25px; width: 25px;">KMC</a>    
+                    <a href="../epm/epm.html"><img src="../../img/EPM.png" style="height: 25px; width: 25px;">EPM</a>
+		        	<a href="../qin/qin.html"><img src="../../img/QIN.png" style="height: 25px; width: 30px;">QIN</a>
+					<a href="../ipm/ipm.html"><img src="../../img/ipm.png" style="height: 25px; width: 35px;">IPM</a>    
+                    <a href="../kiss/kiss.html"><img src="../../img/KISS.png" style="height: 25px; width: 25px;">KISS</a>
+		        	<a href="../sln/sln.html"><img src="../../img/SLN.png" style="height: 25px; width: 25px;">SLN</a>
+					 
+                    <a href="../kks/kks.html"><img src="../../img/kks.png" style="height: 25px; width: 25px;">KKS</a>
+		        	<a href="../iapp/iapp.html"><img src="../../img/iapp.png" style="height: 25px; width: 25px;">IAPP</a>
+					<a href="../gcr/gcr.html"><img src="../../img/gcr.png" style="height: 25px; width: 25px;">GLOBAL</a>
+                    <a href="../rbn/rbn.html"><img src="../../img/rbn.png" style="height: 25px; width: 35px;">RBN</a>  
+                    <a href="../pac/pac.html"><img src="../../img/pac.png" style="height: 25px; width: 35px;">PAC</a>  
+                    <a href="../hml/hml.html"><img src="../../img/hml.png" style="height: 25px; width: 35px;">HML</a>  
+                    <a href="../gmp/gmp.html"><img src="../../img/gmp.png" style="height: 25px; width: 35px;">GMP</a>  
+                    <a href="../gei/gei.html"><img src="../../img/gei.png" style="height: 25px; width: 35px;">GEI</a>   
+                    <a href="../gelm/gelm.html"><img src="../../img/gelm.png" style="height: 25px; width: 35px;">GELM</a>  
+                    <a href="../kmb/kmb.html"><img src="../../img/kmb.png" style="height: 25px; width: 35px;">KMB</a>  
+                    <a href="../ter/ter.html"><img src="../../img/ter.png" style="height: 25px; width: 35px;">TER</a>  
+                    <a href="../mi/mi.html"><img src="../../img/mi.png" style="height: 25px; width: 35px;">MI</a>  
+                </div>
+            </div>
+            <a href="iapp.html">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+        </div>
+        <h1>
+            <a href="../../index.html">
+                <img src="../../img/KARYAWAN.png" style="height: 50px; width: 50px;" alt="Logo">
+            </a>
+            <br>SAMUDERA INTI PASIFIK | Karyawan
+        </h1>
+    </header>
+
+    <section>
+
+        <div class="card">
+        
+            <div class="card-header">
+                <h3 class="card-title">Jumlah Karyawan PT SIP</h3>
+            </div>
+            <div class="card-body">
+
+        <img id="modal-img" src="img/JUMLAH KARYAWAN.png" style="width:854px;height:480px;">
+        </div>
+        </div>
+
+     <!-- Modal structure -->
+     <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
+
+    <script>
+        // Get modal elements
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("modal-img");
+        var modalImg = document.getElementById("img01");
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the image, open the modal and display the image
+        img.onclick = function(){
+            modal.style.display = "flex";
+            modalImg.src = this.src;
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() { 
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https:cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="asset/style.css">
+	<link rel="icon" href="img/GEL.png" type="image/x-icon"/>
+	<title>GEL GROUP</title>
+	<style>
+		body {
+			background-image: url(img/bg.jpg);
+			background-size: cover;
+		}
+		.logout-link {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			background-color: #d9534f;
+			color: white;
+			padding: 10px 15px;
+			border-radius: 5px;
+			text-decoration: none;
+			font-weight: bold;
+		}
+
+		.container
+{
+	position: relative;
+	width: 800px;
+	height: 800px;
+	border: 2px solid #fff;
+	border-radius: 50%;
+}
+
+		.container .icon .imgBx
+		{
+		position: absolute;
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		transition: 0.5s;
+		border: 1px solid #fff;
+		box-shadow: 0 0 0 4px #222,
+		0 0 0 6px #fff;
+		transform: rotate(calc(360deg/ 22 * var(--i)));
+		transform-origin: 440px;
+		z-index: 100;
+		overflow: hidden;
+		animation: animate_01 30s linear infinite;
+	}
+
+	.container .icon .imgBx img
+	{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		object-fit: cover;
+		transform: rotate(calc(-360deg / 22 * var(--i)));
+		transition: 0.5s;
+		filter: grayscale(1);
+	}
+	</style>
+</head>
+<body>
+
+	<script>
+		// Check if the user is logged in
+		if(!localStorage.getItem('loggedIn')) {
+			window.location.href = 'asset/login.html';
+		}
+
+		function logout() {
+			// Remove login status from local storage
+			localStorage.removeItem('loggedIn');
+			// Redirect to login page
+			window.location.href = 'asset/login.html';
+		}
+	</script>
+	
+	<a href="javascript:void(0);" class="logout-link" onclick="logout()">Logout</a>
+
+	<div class="container">
+		<div class="icon">
+			<div class="imgBx active" style="--i:1;" data-id="content1">
+				<a href="asset/gel/gel.html">
+					<img src="img/GEL.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:2;" data-id="content2">
+				<a href="asset/gsm/gsm.html">
+					<img src="img/GSM.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:3;" data-id="content3">
+				<a href="asset/gsj/gsj.html">
+					<img src="img/GSJ.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:4;" data-id="content4">
+				<a href="asset/kmc/kmc.html">
+					<img src="img/KMC.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:5;" data-id="content5">
+				<a href="asset/epm/epm.html">
+					<img src="img/EPM.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:6;" data-id="content6">
+				<a href="asset/qin/qin.html">
+					<img src="img/QIN.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:7;" data-id="content7">
+				<a href="asset/ipm/ipm.html">
+					<img src="img/ipm.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:8;" data-id="content8">
+				<a href="asset/kiss/kiss.html">
+					<img src="img/KISS.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:9;" data-id="content9">
+				<a href="asset/sln/sln.html">
+					<img src="img/SLN.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:10;" data-id="content10">
+				<a href="asset/sip/sip.html">
+					<img src="img/SIP.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:11;" data-id="content11">
+				<a href="asset/kks/kks.html">
+					<img src="img/kks.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:12;" data-id="content12">
+				<a href="asset/iapp/iapp.html">
+					<img src="img/IAPP.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:13;" data-id="content13">
+				<a href="asset/gcr/gcr.html">
+					<img src="img/gcr.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:14;" data-id="content14">
+				<a href="asset/rbn/rbn.html">
+					<img src="img/rbn.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:15;" data-id="content15">
+				<a href="asset/pac/pac.html">
+					<img src="img/pac.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:16;" data-id="content16">
+				<a href="asset/pac/pac.html">
+					<img src="img/pac.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:17;" data-id="content17">
+				<a href="asset/gmp/gmp.html">
+					<img src="img/gmp.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:18;" data-id="content18">
+				<a href="asset/gei/gei.html">
+					<img src="img/gei.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:19;" data-id="content19">
+				<a href="asset/gelm/gelm.html">
+					<img src="img/gelm.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:20;" data-id="content20">
+				<a href="asset/kmb/kmb.html">
+					<img src="img/kmb.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:21;" data-id="content21">
+				<a href="asset/ter/ter.html">
+					<img src="img/ter.png">
+				</a>
+			</div>
+			<div class="imgBx" style="--i:22;" data-id="content22">
+				<a href="asset/mi/mi.html">
+					<img src="img/mi.png">
+				</a>
+			</div>
+		</div>
+
+		<div class="content">
+			<div class="contentBx active" id="content1">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/GEL.png">
+					</div>
+					<div class="textBx">
+						<h2> PT GEL<br><span>Global Energi Lestari</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content2">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/GSM.png">
+					</div>
+					<div class="textBx">
+						<h2>PT GSM<br><span>Global Sinergi Maritim</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content3">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/GSJ.png">
+					</div>
+					<div class="textBx">
+						<h2> GSJ Group<br><span>Global Sinergi Jasindo</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content4">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/KMC.png">
+					</div>
+					<div class="textBx">
+						<h2> KMC Group<br><span>Karina Mining Contractor</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content5">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/EPM.png">
+					</div>
+					<div class="textBx">
+						<h2> EPM Group<br><span>Era Perkasa Mining</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content6">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/QIN.png">
+					</div>
+					<div class="textBx">
+						<h2> PT QIN<br><span>QUASAR INTI NUSANTARA</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content7">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/ipm.png">
+					</div>
+					<div class="textBx">
+						<h2> PT IPM<br><span>ILHAM PUTRA MAHKOTA</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content8">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/KISS.png">
+					</div>
+					<div class="textBx">
+						<h2> PT KISS<br><span>KEMILAU INTI SAWIT SAMUDRA</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content9">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/sln.png">
+					</div>
+					<div class="textBx">
+						<h2> PT SLN<br><span>SINAMARINDA LINTAS NUSANTARA</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content10">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/SIP.png">
+					</div>
+					<div class="textBx">
+						<h2>PT SIP<br><span>SAMUDRA INTI PASIFIK</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content11">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/kks.png">
+					</div>
+					<div class="textBx">
+						<h2>PT KKS<br><span>KELINCI KARYA SAMPOERNA</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content12">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/IAPP.png">
+					</div>
+					<div class="textBx">
+						<h2>PT IAPP<br><span>INDO AGRO PERMATA PERMAI</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content13">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/gcr.png">
+					</div>
+					<div class="textBx">
+						<h2>PT GLOBAL<br><span>GLOBAL COAL RESOURCES PTE LTD</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content14">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/rbn.png">
+					</div>
+					<div class="textBx">
+						<h2>PT RBN<br><span>RIAU BUMI MINERAL</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content15">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/pac.png">
+					</div>
+					<div class="textBx">
+						<h2>PT PAC<br><span>PRIMA ALAM CEMERLANG</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content16">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/hml.png">
+					</div>
+					<div class="textBx">
+						<h2>PT HML<br><span>HIJAU MAS LESTARI</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content17">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/gmp.png">
+					</div>
+					<div class="textBx">
+						<h2>PT GMP<br><span>GLOBAL MEGA PALMINDO</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content18">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/gei.png">
+					</div>
+					<div class="textBx">
+						<h2>PT GELTech<br><span>GLOBAL EKAWIRA LESTARI</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content19">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/gelm.png">
+					</div>
+					<div class="textBx">
+						<h2>PT GELM<br><span>GLOBAL ENERGI LESTARI MINERAL</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content20">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/kmb.png">
+					</div>
+					<div class="textBx">
+						<h2>CV KMB<br><span>KARYA MAJU BERSAMA</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content21">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/ter.png">
+					</div>
+					<div class="textBx">
+						<h2>PT TER<br><span>TEMPIRAI ENERGI RESOURCES</span></h2>
+					</div>
+				</div>
+			</div>
+			<div class="contentBx" id="content22">
+				<div class="card">
+					<div class="imgBx">
+						<img src="img/mi.png">
+					</div>
+					<div class="textBx">
+						<h2>PT MADHUCON<br><span>MADHUCON INDONESIA</span></h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		let imgBx = document.querySelectorAll('.imgBx');
+		let contentBx = document.querySelectorAll('.contentBx');
+
+		for (let i = 0; i < imgBx.length; i++) {
+			imgBx[i].addEventListener('mouseover', function () {
+				for (let i = 0; i < contentBx.length; i++) {
+					contentBx[i].className = 'contentBx';
+				}
+				document.getElementById(this.dataset.id).className = 'contentBx active';
+
+				for (let i = 0; i < imgBx.length; i++) {
+					imgBx[i].className = 'imgBx';
+				}
+				this.className = 'imgBx active';
+			});
+		}
+	</script>
+</body>
+</html>

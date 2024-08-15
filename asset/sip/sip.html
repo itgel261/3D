@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../asset/style.css">
+    <link rel="icon" href="../../img/SIP.png" type="image/x-icon"/>
+    <title>SAMUDERA INTI PASIFIK</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Prevent scrollbars from showing due to the video */
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header .icons {
+            display: flex;
+            align-items: center;
+        }
+        .header .icons .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .header .icons .dropdown input[type="checkbox"] {
+            display: none;
+        }
+        .header .icons .dropdown .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #333;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 8px; /* Rounded corners */
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, box-shadow 0.3s;
+            padding: 5px 0; /* Reduced padding for a smaller box */
+            width: 150px; /* Adjusted width */
+        }
+        .header .icons .dropdown input[type="checkbox"]:checked ~ .dropdown-content {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+        }
+        .header .icons .dropdown .dropdown-content a {
+            color: white;
+            padding: 8px 12px; /* Reduced padding for a smaller link */
+            text-decoration: none;
+            display: flex; /* Use Flexbox to align items */
+            align-items: center; /* Center items vertically */
+            border-radius: 4px; /* Rounded corners for each item */
+            font-size: 14px; /* Smaller font size */
+            transition: background-color 0.3s, padding 0.3s; /* Smooth transition for background color and padding */
+        }
+        .header .icons .dropdown .dropdown-content a:hover {
+            background-color: #a07708; /* Background color on hover */
+            padding: 8px 16px; /* Slightly increased padding on hover for a button-like effect */
+        }
+        .header .icons .dropdown .dropdown-content img {
+            margin-right: 8px; /* Reduced margin */
+            height: 20px; /* Smaller height for images */
+            width: 20px; /* Smaller width for images */
+            border-radius: 4px; /* Optional: round corners of the image */
+        }
+        .header .icons i {
+            color: white;
+            font-size: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .header .icons i:hover {
+            opacity: 0.8;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-align: center;
+            width: 100%;
+        }
+        .header h1 a {
+            text-decoration: none;
+            color: white;
+        }
+        .container {
+            margin-top: 80px; /* Adjust based on header height */
+            position: relative; /* Ensure it's above the video */
+            z-index: 1; /* Ensure it's above the video */
+        }
+        .container .icon .imgBx {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            transition: 0.5s;
+            border: 1px solid #fff;
+            box-shadow: 0 0 0 4px #222, 0 0 0 6px #fff;
+            transform: rotate(calc(360deg/6 * var(--i)));
+            transform-origin: 340px;
+            z-index: 100;
+            overflow: hidden;
+            animation: animate_01 30s linear infinite;
+        }
+        .container .icon .imgBx img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            transform: rotate(calc(-360deg / 6 * var(--i)));
+            transition: 0.5s;
+            filter: grayscale(1);
+        }
+        /* Background video styling */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1; /* Place video behind other content */
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="bg-video" autoplay muted loop>
+        <source src="img/bgsip.mp4" type="video/mp4">
+    
+    </video>
+
+    <header class="header">
+        <div class="icons">
+            <a href="../../index.html">
+                <i class="fa fa-home"></i>
+            </a>
+            <div class="dropdown">
+                <input type="checkbox" id="dropdown-toggle">
+                <label for="dropdown-toggle">
+                    <i class="fa fa-bars"></i>
+                </label>
+                <div class="dropdown-content">
+                    <a href="../gel/gel.html"><img src="../../img/GEL.png" style="height: 25px; width: 25px;">GEL</a>   
+                    <a href="../gsm/gsm.html"><img src="../../img/GSM.png" style="height: 25px; width: 25px;">GSM</a>
+		        	<a href="../gsj/gsj.html"><img src="../../img/GSJ.png" style="height: 25px; width: 25px;">GSJ</a>
+					<a href="../kmc/kmc.html"><img src="../../img/KMC.png" style="height: 25px; width: 25px;">KMC</a>    
+                    <a href="../epm/epm.html"><img src="../../img/EPM.png" style="height: 25px; width: 25px;">EPM</a>
+		        	<a href="../qin/qin.html"><img src="../../img/QIN.png" style="height: 25px; width: 30px;">QIN</a>
+					<a href="../ipm/ipm.html"><img src="../../img/ipm.png" style="height: 25px; width: 35px;">IPM</a>    
+                    <a href="../kiss/kiss.html"><img src="../../img/KISS.png" style="height: 25px; width: 25px;">KISS</a>
+		        	<a href="../sln/sln.html"><img src="../../img/SLN.png" style="height: 25px; width: 25px;">SLN</a>
+					 
+                    <a href="../kks/kks.html"><img src="../../img/kks.png" style="height: 25px; width: 25px;">KKS</a>
+		        	<a href="../iapp/iapp.html"><img src="../../img/iapp.png" style="height: 25px; width: 25px;">IAPP</a>
+					<a href="../gcr/gcr.html"><img src="../../img/gcr.png" style="height: 25px; width: 25px;">GLOBAL</a>
+                    <a href="../rbn/rbn.html"><img src="../../img/rbn.png" style="height: 25px; width: 35px;">RBN</a>  
+                    <a href="../pac/pac.html"><img src="../../img/pac.png" style="height: 25px; width: 35px;">PAC</a>  
+                    <a href="../hml/hml.html"><img src="../../img/hml.png" style="height: 25px; width: 35px;">HML</a>  
+                    <a href="../gmp/gmp.html"><img src="../../img/gmp.png" style="height: 25px; width: 35px;">GMP</a>  
+                    <a href="../gei/gei.html"><img src="../../img/gei.png" style="height: 25px; width: 35px;">GEI</a>   
+                    <a href="../gelm/gelm.html"><img src="../../img/gelm.png" style="height: 25px; width: 35px;">GELM</a>  
+                    <a href="../kmb/kmb.html"><img src="../../img/kmb.png" style="height: 25px; width: 35px;">KMB</a>  
+                    <a href="../ter/ter.html"><img src="../../img/ter.png" style="height: 25px; width: 35px;">TER</a>  
+                    <a href="../mi/mi.html"><img src="../../img/mi.png" style="height: 25px; width: 35px;">MI</a>  
+                </div>
+            </div>
+        </div>
+        <h1>
+            <a href="../../index.html">
+                <img src="../../img/SIP.png" style="height: 70px; width: 100px;" alt="Logo">
+            </a>
+            <br>SAMUDERA INTI PASIFIK
+        </h1>
+    </header>
+    
+    <div class="container">
+        <div class="icon">
+            <div class="imgBx active" style="--i:1;" data-id="content1">
+                <a href="compro.html">
+                    <img src="../../img/SIP.png">
+                </a>
+            </div>
+            <div class="imgBx" style="--i:2;" data-id="content2">
+                <a href="karyawansip.html">
+                    <img src="../../img/KARYAWAN.png">
+                </a>
+            </div>
+            <div class="imgBx" style="--i:3;" data-id="content3">
+                <a href="taxsip.html">
+                    <img src="../../img/TAX.png">
+                </a>
+            </div>
+            <div class="imgBx" style="--i:4;" data-id="content4">
+                <a href="legalitas.html">
+                    <img src="../../img/LEGAL.png">
+                </a>
+            </div>
+            <div class="imgBx" style="--i:5;" data-id="content5">
+                <a href="lpkeuangan.html">
+                    <img src="../../img/lpkeuangan.png">
+                </a>
+            </div>
+            <div class="imgBx" style="--i:6;" data-id="content6">
+                <a href="aset.html">
+                    <img src="../../img/ASET BERGERAK.png">
+                </a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="contentBx active" id="content1">
+                <div class="card">
+                    <div class="imgBx">
+                        <img src="../../img/SIP.png">
+                    </div>
+                    <div class="textBx">
+                        <h2>COMPANY PROFILE<br><span>Tentang perusahaan kami</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="contentBx" id="content2">
+                <div class="card">
+                    <div class="imgBx">
+                        <img src="../../img/KARYAWAN.png">
+                    </div>
+                    <div class="textBx">
+                        <h2>KARYAWAN<br><span>Daftar karyawan PT SIP</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="contentBx" id="content3">
+                <div class="card">
+                    <div class="imgBx">
+                        <img src="../../img/TAX.png">
+                    </div>
+                    <div class="textBx">
+                        <h2>TAX<br><span>Identitas Perpajakan</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="contentBx" id="content4">
+                <div class="card">
+                    <div class="imgBx">
+                        <img src="../../img/LEGAL.png">
+                    </div>
+                    <div class="textBx">
+                        <h2>Legalitas<br><span>Daftar Pengurus dan Komisaris Peseroan</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="contentBx" id="content5">
+                <div class="card">
+                    <div class="imgBx">
+                        <img src="../../img/lpkeuangan.png">
+                    </div>
+                    <div class="textBx">
+                        <h2>Keuangan<br><span>Laporan Keuangan PT SIP</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="contentBx" id="content6">
+                <div class="card">
+                    <div class="imgBx">
+                        <img src="../../img/ASET BERGERAK.png">
+                    </div>
+                    <div class="textBx">
+                        <h2>ASET BERGERAK<br><span>Daftar Aset Bergerak PT SIP</span></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let imgBx = document.querySelectorAll('.imgBx');
+        let contentBx = document.querySelectorAll('.contentBx');
+
+        for (let i=0; i<imgBx.length; i++){
+            imgBx[i].addEventListener('mouseover', function(){
+                for(let i=0; i<contentBx.length; i++){
+                    contentBx[i].className = 'contentBx';
+                }
+                document.getElementById(this.dataset.id).className = 'contentBx active';
+
+                for(let i=0; i<imgBx.length; i++){
+                    imgBx[i].className = 'imgBx';
+                }
+                this.className = 'imgBx active';
+            });
+        }
+    </script>
+</body>
+</html>
+

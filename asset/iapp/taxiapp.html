@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../asset/style.css">
+    <link rel="icon" href="../../img/IAPP.png" type="image/x-icon"/>
+    <title>INDO AGRO PERMATA PERMAI | TAX</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url(../../img/gelbg.jpg);
+            background-size: cover;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header .icons {
+            display: flex;
+            align-items: center;
+        }
+        .header .icons .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .header .icons .dropdown input[type="checkbox"] {
+            display: none;
+        }
+        .header .icons .dropdown .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #333;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, box-shadow 0.3s;
+            padding: 5px 0;
+            width: 150px;
+        }
+        .header .icons .dropdown input[type="checkbox"]:checked ~ .dropdown-content {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .header .icons .dropdown .dropdown-content a {
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background-color 0.3s, padding 0.3s;
+        }
+        .header .icons .dropdown .dropdown-content a:hover {
+            background-color: #a07708;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+        .header .icons .dropdown .dropdown-content img {
+            margin-right: 8px;
+            height: 20px;
+            width: 20px;
+            border-radius: 4px;
+        }
+        .header .icons i {
+            color: white;
+            font-size: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .header .icons i:hover {
+            opacity: 0.8;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-align: center;
+            width: 100%;
+        }
+        .header h1 a {
+            text-decoration: none;
+            color: white;
+        }
+        .row {
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping of columns if necessary */
+            justify-content: center; /* Center align content horizontally */
+            align-items: center; /* Center align content vertically */
+            gap: 20px; /* Add space between columns */
+        }
+        .column {
+        float: left;
+        width: 50%; /* Atur lebar kolom untuk memberikan lebih banyak ruang */
+        padding: 10px; /* Tambahkan padding jika perlu */
+    }
+
+    .column img {
+        width: 100%; /* Atur gambar agar memenuhi lebar kolom */
+        height: auto; /* Pertahankan aspek rasio gambar */
+        display: block; /* Menghilangkan jarak bawah */
+        object-fit: cover; /* Sesuaikan gambar agar memenuhi ruang kolom tanpa terdistorsi */
+    }
+        .card {
+            position: relative;
+            margin: 100px auto; /* Center the card and adjust top margin to be below the header */
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 800px; /* Set a maximum width for the card */
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Arrange children vertically */
+            justify-content: space-between; /* Space between header and body */
+        }
+
+        .card img {
+        width: 360%; /* Gambar sedikit lebih besar dari kolom card */
+        max-width: none; /* Hapus batas maksimal lebar jika ada */
+    }
+        .card-header {
+            background-color: rgba(52, 117, 236, 0.8); /* Semi-transparent blue */
+            color: #000000;
+            padding: 12px;
+            text-align: center;
+        }
+        section {
+            margin: 40px 0; /* Adds vertical spacing between sections */
+            padding: 20px;  /* Adds padding inside each section */
+        }
+        /* The Modal (background) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1050; /* Ensure modal is above everything */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8); /* Slightly transparent background */
+        }
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 100px; /* Ensure it's below the header */
+            animation: zoom 0.6s;
+        }
+        /* The Close Button */
+        .close {
+            color: white;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+            z-index: 1051; /* Ensure close button is on top of modal content */
+        }
+        .close:hover,
+        .close:focus {
+            color: #999;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .mySlides {
+            display: none;
+        }
+        .cursor {
+            cursor: pointer;
+        }
+        /* Next & previous buttons */
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -50px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            -webkit-user-select: none;
+            z-index: 1051; /* Ensure next/prev buttons are on top of modal content */
+        }
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+        img {
+            margin-bottom: -4px;
+        }
+        .caption-container {
+            text-align: center;
+            background-color: black;
+            padding: 2px 16px;
+            color: white;
+        }
+        .demo {
+            opacity: 0.6;
+        }
+        .active,
+        .demo:hover {
+            opacity: 1;
+        }
+        img.hover-shadow {
+            transition: 0.3s;
+        }
+        .hover-shadow:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+            to {
+                transform: scale(1)
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <header class="header">
+        <div class="icons">
+            <a href="../../index.html">
+                <i class="fa fa-home"></i>
+            </a>
+            <div class="dropdown">
+                <input type="checkbox" id="dropdown-toggle">
+                <label for="dropdown-toggle">
+                    <i class="fa fa-bars"></i>
+                </label>
+                <div class="dropdown-content">
+                    <a href="../gel/gel.html"><img src="../../img/GEL.png" style="height: 25px; width: 25px;">GEL</a>
+                    <a href="../gsm/gsm.html"><img src="../../img/GSM.png" style="height: 25px; width: 25px;">GSM</a>
+		        	<a href="../gsj/gsj.html"><img src="../../img/GSJ.png" style="height: 25px; width: 25px;">GSJ</a>
+					<a href="../kmc/kmc.html"><img src="../../img/KMC.png" style="height: 25px; width: 25px;">KMC</a>    
+                    <a href="../epm/epm.html"><img src="../../img/EPM.png" style="height: 25px; width: 25px;">EPM</a>
+		        	<a href="../qin/qin.html"><img src="../../img/QIN.png" style="height: 25px; width: 30px;">QIN</a>
+					<a href="../ipm/ipm.html"><img src="../../img/ipm.png" style="height: 25px; width: 35px;">IPM</a>    
+                    <a href="../kiss/kiss.html"><img src="../../img/KISS.png" style="height: 25px; width: 25px;">KISS</a>
+		        	<a href="../sln/sln.html"><img src="../../img/SLN.png" style="height: 25px; width: 25px;">SLN</a>
+					<a href="../sip/sip.html"><img src="../../img/SIP.png" style="height: 25px; width: 25px;">SIP</a>    
+                    <a href="../kks/kks.html"><img src="../../img/kks.png" style="height: 25px; width: 25px;">KKS</a>
+		        	
+					<a href="../gcr/gcr.html"><img src="../../img/gcr.png" style="height: 25px; width: 25px;">GLOBAL</a>
+                    <a href="../rbn/rbn.html"><img src="../../img/rbn.png" style="height: 25px; width: 35px;">RBN</a>  
+                    <a href="../pac/pac.html"><img src="../../img/pac.png" style="height: 25px; width: 35px;">PAC</a>  
+                    <a href="../hml/hml.html"><img src="../../img/hml.png" style="height: 25px; width: 35px;">HML</a>  
+                    <a href="../gmp/gmp.html"><img src="../../img/gmp.png" style="height: 25px; width: 35px;">GMP</a>  
+                    <a href="../gei/gei.html"><img src="../../img/gei.png" style="height: 25px; width: 35px;">GEI</a>   
+                    <a href="../gelm/gelm.html"><img src="../../img/gelm.png" style="height: 25px; width: 35px;">GELM</a>  
+                    <a href="../kmb/kmb.html"><img src="../../img/kmb.png" style="height: 25px; width: 35px;">KMB</a>  
+                    <a href="../ter/ter.html"><img src="../../img/ter.png" style="height: 25px; width: 35px;">TER</a>  
+                    <a href="../mi/mi.html"><img src="../../img/mi.png" style="height: 25px; width: 35px;">MI</a>  
+                </div>
+            </div>
+            <a href="iapp.html">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+        </div>
+        <h1>
+            <a href="../../index.html">
+                <img src="../../img/TAX.png" style="height: 60px; width: 100px;" alt="Logo">
+            </a>
+            <br>INDO AGRO PERMATA PERMAI | TAX
+        </h1>
+    </header>
+
+    <section>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">IDENTITAS PERPAJAKAN</h3>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <img src="img/Picture3.png" style="width:100%" onclick="openModal('myModal1');currentSlide('myModal1', 1)" class="hover-shadow cursor">
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="myModal1" class="modal">
+                <span class="close cursor" onclick="closeModal('myModal1')">&times;</span>
+                <div class="modal-content">
+                    <div class="mySlides" data-modal="myModal1">
+                        <div class="numbertext">1 / 1</div>
+                        <img src="img/Picture3.png" style="width:100%">
+                    </div>
+                    <div class="caption-container">
+                        <p id="caption1"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">LAPORAN KEUANGAN</h3>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <img src="img/tax1.png" style="width:100%" onclick="openModal('myModal2');currentSlide('myModal2', 1)" class="hover-shadow cursor">
+                </div>
+                <div class="column">
+                    <img src="img/tax2.png" style="width:100%" onclick="openModal('myModal2');currentSlide('myModal2', 2)" class="hover-shadow cursor">
+                </div>
+                <div class="column">
+                    <img src="img/tax3.png" style="width:100%" onclick="openModal('myModal2');currentSlide('myModal2', 2)" class="hover-shadow cursor">
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="myModal2" class="modal">
+                <span class="close cursor" onclick="closeModal('myModal2')">&times;</span>
+                <div class="modal-content">
+                    <div class="mySlides" data-modal="myModal2">
+                        <div class="numbertext">1 / 3</div>
+                        <img src="img/tax1.png" style="width:100%">
+                    </div>
+                    <div class="mySlides" data-modal="myModal2">
+                        <div class="numbertext">2 / 3</div>
+                        <img src="img/tax2.png" style="width:100%">
+                    </div>
+                    <div class="mySlides" data-modal="myModal2">
+                        <div class="numbertext">2 / 3</div>
+                        <img src="img/tax3.png" style="width:100%">
+                    </div>
+                    <a class="prev" onclick="plusSlides('myModal2', -1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides('myModal2', 1)">&#10095;</a>
+                    <div class="caption-container">
+                        <p id="caption2"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let slideIndex = {
+            myModal1: 1,
+            myModal2: 1
+        };
+    
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+            showSlides(modalId, slideIndex[modalId]);
+        }
+    
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+    
+        function plusSlides(modalId, n) {
+            slideIndex[modalId] += n;
+            const slides = document.querySelectorAll(`#${modalId} .mySlides`);
+            if (slideIndex[modalId] > slides.length) {
+                slideIndex[modalId] = 1;
+            }
+            if (slideIndex[modalId] < 1) {
+                slideIndex[modalId] = slides.length;
+            }
+            showSlides(modalId, slideIndex[modalId]);
+        }
+    
+        function currentSlide(modalId, n) {
+            slideIndex[modalId] = n;
+            showSlides(modalId, slideIndex[modalId]);
+        }
+    
+        function showSlides(modalId, n) {
+            const slides = document.querySelectorAll(`#${modalId} .mySlides`);
+            const captionText = document.getElementById(`caption${modalId === 'myModal1' ? 1 : 2}`);
+            if (n > slides.length) { n = 1; }
+            if (n < 1) { n = slides.length; }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[n - 1].style.display = "block";
+            captionText.innerHTML = slides[n - 1].alt || '';
+        }
+    </script>
+    
+    
+</body>
+</html>
