@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
             backgroundColor: [
                 'rgb(101, 224, 206)',
                 'rgb(2, 79, 9)',   
-                'rgb(255, 205, 86)'   
+                'rgb(142, 220, 167)'   
             ],
             borderColor: [
                 'rgb(101, 224, 206)',
                 'rgb(2, 79, 9)', 
-                'rgb(255, 205, 86)'
+                'rgb(142, 220, 167)'
             ],
             hoverOffset: 4
         }]
