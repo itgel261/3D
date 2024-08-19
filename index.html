@@ -79,6 +79,14 @@
 			window.location.href = 'asset/login.html';
 		}
 	</script>
+	<script>
+		document.onkeydown = function(e) {
+				if (e.ctrlKey && 
+					(e.keyCode === 85 )) {
+					return false;
+				}
+		};
+	</script>
 	
 	<a href="javascript:void(0);" class="logout-link" onclick="logout()">Logout</a>
 
