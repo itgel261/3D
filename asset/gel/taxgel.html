@@ -265,14 +265,14 @@
     <script>
 		// Check if the user is logged in
 		if(!localStorage.getItem('loggedIn')) {
-			window.location.href = 'asset/login.html';
+			window.location.href = '../login.html';
 		}
 
 		function logout() {
 			// Remove login status from local storage
 			localStorage.removeItem('loggedIn');
 			// Redirect to login page
-			window.location.href = 'asset/login.html';
+			window.location.href = '../login.html';
 		}
 	</script>
     
