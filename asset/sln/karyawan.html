@@ -213,6 +213,27 @@
     </style>
 </head>
 <body>
+    <script>
+		// Check if the user is logged in
+		if(!localStorage.getItem('loggedIn')) {
+			window.location.href = '../login.html';
+		}
+
+		function logout() {
+			// Remove login status from local storage
+			localStorage.removeItem('loggedIn');
+			// Redirect to login page
+			window.location.href = '../login.html';
+		}
+	</script>
+    <script>
+		document.onkeydown = function(e) {
+				if (e.ctrlKey && 
+					(e.keyCode === 85 )) {
+					return false;
+				}
+		};
+	</script>
     <header class="header">
         <div class="icons">
             <a href="../../index.html">
