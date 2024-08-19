@@ -91,6 +91,7 @@
         .header h1 {
             margin: 0;
             font-size: 24px;
+            padding-left: 150px;
             text-align: center;
             width: 100%;
         }
@@ -123,10 +124,42 @@
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            transform: rotate(calc(-360deg / 6 * var(--i)));
+    
             transition: 0.5s;
             filter: grayscale(1);
         }
+        .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px;
+}
+
+.button button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: 2px solid white; /* Border color */
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.button button i {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+.button button:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+    border-color: rgba(255, 255, 255, 0.8); /* Slightly lighter border on hover */
+    color: #a07708; /* Text color on hover */
+}
 
     </style>
 </head>
@@ -193,6 +226,12 @@
             </a>
             <br>KELINCI KARYA SAMPOERNA
         </h1>
+        <div class="button">
+            <button onclick="window.location.href='bo.html'">
+                <i class="fa fa-building" aria-hidden="true"></i>
+                Beneficial Ownership
+            </button>
+        </div>
     </header>
     
 	<div class="container">
