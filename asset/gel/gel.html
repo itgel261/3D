@@ -2,18 +2,16 @@
 <html>
 <head>
 	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../style.css">
+	<link rel="stylesheet" href="../../asset/style.css">
 	<link rel="icon" href="../../img/GEL.png" type="image/x-icon"/>
-    
 	<title>GLOBAL ENERGI LESTARI</title>
     <style>
 		body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background-image: url(../../img/gelbg.jpg);
+            background-image: url(img/gelbg.jpg);
             background-size: cover;
         }
         .header {
@@ -92,8 +90,8 @@
         }
         .header h1 {
             margin: 0;
+            padding-left: 150px ;
             font-size: 24px;
-            padding-left: 150px;
             text-align: center;
             width: 100%;
         }
@@ -129,6 +127,17 @@
             transform: rotate(calc(-360deg / 6 * var(--i)));
             transition: 0.5s;
             filter: grayscale(1);
+        }
+
+                /* Background video styling */
+                .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1; /* Place video behind other content */
         }
         .button {
     display: flex;
@@ -188,12 +197,15 @@
 				}
 		};
 	</script>
-
+    
+        <!-- Background Video -->
+        <video class="bg-video" autoplay muted loop>
+            <source src="img/bgera.mp4" type="video/mp4">
+        </video>
     <header class="header">
         <div class="icons">
             <a href="../../index.html">
-                <i class="fa fa-home"></i>
-            </a>
+            <i class="fa fa-home"></i></a>
             <div class="dropdown">
                 <input type="checkbox" id="dropdown-toggle">
                 <label for="dropdown-toggle">
@@ -237,8 +249,7 @@
             </button>
         </div>
     </header>
-    
-	<div class="container">
+    <div class="container">
 		<div class="icon">
 			<div class="imgBx active" style="--i:1;"
 			data-id="content1">
@@ -248,13 +259,13 @@
 			</div>
 			<div class="imgBx" style="--i:2;"
 			data-id="content2">
-			<a href="karyawangel.html">
+			<a href="karyawan.html">
 				<img src="../../img/KARYAWAN.png">
 			</a>
 			</div>
 			<div class="imgBx" style="--i:3;"
 			data-id="content3">
-			<a href="taxgel.html">
+			<a href="tax.html">
 				<img src="../../img/TAX.png">
 			</a>
 			</div>
@@ -278,18 +289,17 @@
 			</div>
 		</div>
 
-		<div class="content"> 
+		<div class="content">
 			<div class="contentBx active" id="content1">
 				<div class="card">
 					<div class="imgBx">
-						<img src="../../img/GEL.png">
+						<img src="../../img/EPM.png">
 					</div>
 					<div class="textBx">
 						<h2>COMPANY PROFILE<br><span>Tentang perusahaan kami</span></h2>
 					</div>
 				</div>
 			</div>
-
 			<div class="contentBx" id="content2">
 				<div class="card">
 					<div class="imgBx">
@@ -330,19 +340,19 @@
 					</div>
 				</div>
 			</div>
-            <div class="content">
-                <div class="contentBx" id="content6">
-                    <div class="card">
-                        <div class="imgBx">
-                            <img src="../../img/ASET BERGERAK.png">
-                        </div>
-                        <div class="textBx">
-                            <h2>ASET BERGERAK<br><span>Daftar Aset Bergerak PT GEL</span></h2>
-                        </div>
-                    </div>
-                </div>
+            <div class="contentBx" id="content6">
+				<div class="card">
+					<div class="imgBx">
+						<img src="../../img/ASET BERGERAK.png">
+					</div>
+					<div class="textBx">
+						<h2>ASET BERGERAK<br><span>Daftar Aset Bergerak PT GEL</span></h2>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+
 	<script>
 		let imgBx = document.querySelectorAll('.imgBx');
 		let contentBx = document.querySelectorAll('.contentBx');
