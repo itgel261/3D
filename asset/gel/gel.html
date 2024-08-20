@@ -162,6 +162,77 @@
     border-color: rgba(255, 255, 255, 0.8); /* Slightly lighter border on hover */
     color: #a07708; /* Text color on hover */
 }
+/* Media Query for devices with max-width of 768px (tablets and below) */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        border: none;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .header h1 {
+        padding-left: 0;
+        text-align: left;
+        font-size: 20px;
+    }
+
+    .header .icons {
+        margin-bottom: 10px;
+    }
+
+    .header .icons .dropdown .dropdown-content {
+        width: 100%;
+    }
+
+    .button {
+        margin: 10px;
+    }
+
+    .container .icon {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .container .icon .imgBx {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* Media Query for devices with max-width of 480px (mobile phones) */
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 18px;
+        padding-left: 0;
+    }
+
+    .header .icons i {
+        font-size: 20px;
+    }
+
+    .button button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .container .icon .imgBx {
+        width: 50px;
+        height: 50px;
+    }
+
+    .contentBx .card .imgBx {
+        width: 120px;
+        height: 120px;
+    }
+}
+
 
 
     </style>
