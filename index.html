@@ -60,8 +60,11 @@
 		object-fit: cover;
 		transform: rotate(calc(-360deg / 22 * var(--i)));
 		transition: 0.5s;
-		filter: grayscale(1);
+		filter: grayscale(0);
 	}
+	audio {
+    display: none; /* Hide the audio element from view */
+}
 	</style>
 </head>
 <body>
@@ -87,6 +90,12 @@
 				}
 		};
 	</script>
+	
+
+<audio autoplay>
+	<source src="asset/backsound.mp3" type="audio/mpeg">
+	Browser kamu tidak mendukung tag audio ini.
+  </audio>
 	
 	<a href="javascript:void(0);" class="logout-link" onclick="logout()">Logout</a>
 
