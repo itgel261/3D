@@ -40,26 +40,45 @@
             display: none;
         }
         .header .icons .dropdown .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #333;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            z-index: 1;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, box-shadow 0.3s;
-            padding: 5px 0;
-            width: 150px;
-        }
-        .header .icons .dropdown input[type="checkbox"]:checked ~ .dropdown-content {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
-        }
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, box-shadow 0.3s;
+    padding: 5px 0;
+    width: 285px;
+    max-height: 300px; /* Set a maximum height for scrolling */
+    overflow-y: auto; /* Add vertical scrollbar if content overflows */
+}
+
+/* Optional styling for scrollbar */
+.header .icons .dropdown .dropdown-content::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.header .icons .dropdown .dropdown-content::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Rounded corners for the scrollbar thumb */
+}
+
+.header .icons .dropdown .dropdown-content::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Darker color when hovering over the scrollbar thumb */
+}
+
+.header .icons .dropdown input[type="checkbox"]:checked ~ .dropdown-content {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+
         .header .icons .dropdown .dropdown-content a {
             color: white;
             padding: 8px 12px;
@@ -70,10 +89,12 @@
             font-size: 14px;
             transition: background-color 0.3s, padding 0.3s;
         }
+
         .header .icons .dropdown .dropdown-content a:hover {
-            background-color: #a07708;
-            padding: 8px 16px;
-            border-radius: 8px;
+            background-color: #242320; /* Background color on hover */
+    color: #d49e07; /* Text color on hover */
+    padding: 8px 16px; /* Slightly increased padding on hover for a button-like effect */
+    border-radius: 8px;
         }
         .header .icons .dropdown .dropdown-content img {
             margin-right: 8px;
@@ -281,28 +302,28 @@
                     <i class="fa fa-bars"></i>
                 </label>
                 <div class="dropdown-content">
-                    <a href="../gel/gel.html"><img src="../../img/GEL.png" style="height: 25px; width: 25px;">GEL</a>
-                    <a href="../gsm/gsm.html"><img src="../../img/GSM.png" style="height: 25px; width: 25px;">GSM</a>
+                    <a href="../gel/gel.html">• GLOBAL ENERGI LESTARI</a>
+                    <a href="../gsm/gsm.html">• GLOBAL SINERGI MARITIM</a>
 		        	
-					<a href="../kmc/kmc.html"><img src="../../img/KMC.png" style="height: 25px; width: 25px;">KMC</a>    
-                    <a href="../epm/epm.html"><img src="../../img/EPM.png" style="height: 25px; width: 25px;">EPM</a>
-		        	<a href="../qin/qin.html"><img src="../../img/QIN.png" style="height: 25px; width: 30px;">QIN</a>
-					<a href="../ipm/ipm.html"><img src="../../img/ipm.png" style="height: 25px; width: 35px;">IPM</a>    
-                    <a href="../kiss/kiss.html"><img src="../../img/KISS.png" style="height: 25px; width: 25px;">KISS</a>
-		        	<a href="../sln/sln.html"><img src="../../img/SLN.png" style="height: 25px; width: 25px;">SLN</a>
-					<a href="../sip/sip.html"><img src="../../img/SIP.png" style="height: 25px; width: 25px;">SIP</a>    
-                    <a href="../kks/kks.html"><img src="../../img/kks.png" style="height: 25px; width: 25px;">KKS</a>
-		        	<a href="../iapp/iapp.html"><img src="../../img/iapp.png" style="height: 25px; width: 25px;">IAPP</a>
-					<a href="../gcr/gcr.html"><img src="../../img/gcr.png" style="height: 25px; width: 25px;">GLOBAL</a>
-                    <a href="../rbn/rbn.html"><img src="../../img/rbn.png" style="height: 25px; width: 35px;">RBN</a>  
-                    <a href="../pac/pac.html"><img src="../../img/pac.png" style="height: 25px; width: 35px;">PAC</a>  
-                    <a href="../hml/hml.html"><img src="../../img/hml.png" style="height: 25px; width: 35px;">HML</a>  
-                    <a href="../gmp/gmp.html"><img src="../../img/gmp.png" style="height: 25px; width: 35px;">GMP</a>  
-                    <a href="../gei/gei.html"><img src="../../img/gei.png" style="height: 25px; width: 35px;">GEI</a>   
-                    <a href="../gelm/gelm.html"><img src="../../img/gelm.png" style="height: 25px; width: 35px;">GELM</a>  
-                    <a href="../kmb/kmb.html"><img src="../../img/kmb.png" style="height: 25px; width: 35px;">KMB</a>  
-                    <a href="../ter/ter.html"><img src="../../img/ter.png" style="height: 25px; width: 35px;">TER</a>  
-                    <a href="../mi/mi.html"><img src="../../img/mi.png" style="height: 25px; width: 35px;">MI</a>  
+					<a href="../kmc/kmc.html">• KARINA MINING CONTRACTOR</a>    
+                    <a href="../epm/epm.html">• ERA PERKASA MINING</a>
+                    <a href="../qin/qin.html">• QUASAR INTI NUSANTARA</a>
+					<a href="../ipm/ipm.html">• ILHAM PUTRA MAHKOTA</a>    
+                    <a href="../kiss/kiss.html">• KEMILAU INTI SAWIT SEJAHTERA</a>
+		        	<a href="../sln/sln.html">• SINAMARINDA LINTAS NUSANTARA</a>
+					<a href="../sip/sip.html">• SAMUDRA INTI PASIFIK</a>    
+                    <a href="../kks/kks.html">• KELINCI KARYA SAMOPERNA</a>
+		        	<a href="../iapp/iapp.html">• INDO AGRO PERMATA PERMAI</a>
+					<a href="../gcr/gcr.html">• GLOBAL COAL RESOURCE</a>
+                    <a href="../rbm/rbm.html">• RIAU BUMI MINERAL</a>  
+                    <a href="../pac/pac.html">• PRIMA ALAM CEMERLANG</a>  
+                    <a href="../hml/hml.html">• HIJAU MAS LESTARI</a>  
+                    <a href="../gmp/gmp.html">• GLOBAL MEGA PALMINDO</a>  
+                    <a href="../gei/gei.html">• GLOBAL EKAWIRA LESTARI</a>   
+                    <a href="../gelm/gelm.html">• GLOBAL ENERGI LESTARI MINERAL</a>  
+                    <a href="../kmb/kmb.html">• KARYA MAJU BERSAMA</a>  
+                    <a href="../ter/ter.html">• TEMPIRAI ENERGY RESOURCE</a>  
+                    <a href="../mi/mi.html">• MADHUCON INDONESIA</a>  
                 </div>
             </div>
             <a href="gsj.html">
