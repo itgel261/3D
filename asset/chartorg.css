@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: grid;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.tree {
+	padding-top: 100px;
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.tree ul {
+    padding-top: 20px;
+    position: relative;
+    list-style-type: none;
+}
+
+.tree ul ul {
+    padding-left: 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tree li {
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    padding: 10px;
+    transition: 0.5s;
+}
+
+.tree li::before, .tree li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 3px solid #c2970a;
+    width: 50%;
+    height: 10px;
+}
+
+.tree li::after {
+    right: auto;
+    left: 50%;
+    border-left: 3px solid #c2970a;
+}
+
+.tree li:only-child::after, .tree li:only-child::before {
+    display: none;
+}
+
+.tree li:only-child {
+    padding-top: 0;
+}
+
+.tree li:first-child::before, .tree li:last-child::after {
+    border: 0 none;
+}
+
+.tree li:last-child::before {
+    border-right: 3px solid #c2970a;
+    border-radius: 0 5px 0 0;
+}
+
+.tree li:first-child::after {
+    border-radius: 5px 0 0 0;
+}
+
+.tree ul ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 3px solid #c2970a;
+    width: 0;
+    height: 20px;
+}
+
+.tree li.pt {
+	width: 300px;
+}
+
+.tree li.ket {
+	width: 125px;
+}
+
+.tree li a {
+    background: #fff;
+    border: 3px solid #c2970a;
+    padding: 10px;
+    display: inline-grid;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative; /* Ensure position relative for z-index to work */
+    z-index: 1; /* Default z-index */
+}
+
+.tree li a:hover {
+    transform: scale(1.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10; /* Higher z-index to ensure it's on top */
+}
+
+
+.tree li a img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px !important;
+    border-radius: 100px;
+    margin: auto;
+}
+
+.tree li a span {
+
+	border-radius: 10px;
+    color: #000000;
+    padding: 5px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+}
+
+.tree li a span.judul {
+    font-weight: bold; /* Make title text bold */
+}
+
+.tree li a span.caption {
+ font-size: 8px;
+}
