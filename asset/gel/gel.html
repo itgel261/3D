@@ -204,10 +204,26 @@
     </style>
 </head>
 <body>
-    <audio autoplay loop>
+    <audio id="audio1" autoplay>
         <source src="shout.mp3" type="audio/mpeg">
         Browser kamu tidak mendukung tag audio ini.
-      </audio>
+    </audio>
+    <audio id="audio2" loop>
+        <source src="yel.mp3" type="audio/mpeg">
+        Browser kamu tidak mendukung tag audio ini.
+    </audio>
+
+    <script>
+        // Ambil elemen audio
+        const audio1 = document.getElementById('audio1');
+        const audio2 = document.getElementById('audio2');
+
+        // Event listener untuk saat audio pertama selesai
+        audio1.addEventListener('ended', () => {
+            // Mainkan audio kedua dan pastikan untuk loop
+            audio2.play();
+        });
+    </script>
     <script>
 		// Check if the user is logged in
 		if(!localStorage.getItem('loggedIn')) {
