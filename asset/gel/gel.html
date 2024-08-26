@@ -548,6 +548,45 @@ body {
   --pbd: .15s;
   --pex: -24px;
 }
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.continue-application {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 100%; /* Position dropdown below the button */
+    left: 0;
+}
+
+.dropdown-container:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
     </style>
 </head>
 <body>
@@ -688,7 +727,7 @@ body {
             </a>
             <br>GLOBAL ENERGI LESTARI
         </h1>
-        <div>
+        <div class="dropdown-container">
             <button class="continue-application">
                 <div>
                     <div class="pencil"></div>
@@ -703,6 +742,11 @@ body {
                 </div>
                 PENDING TASK
             </button>
+            <div class="dropdown-content">
+                <a href="#option1">Option 1</a>
+                <a href="#option2">Option 2</a>
+                <a href="#option3">Option 3</a>
+            </div>
         </div>
         <div class="button">
             <button onclick="window.location.href='bo.html'">
