@@ -10,6 +10,7 @@
 		body {
 			background-image: url(img/bg.jpg);
 			background-size: cover;
+			overflow: hidden;
 		}
 		.logout-container {
 			position: absolute;
@@ -133,6 +134,157 @@
 		.Btn:active {
 			transform: translate(2px, 2px);
 		}
+
+		.sidebar {
+    top: 10px; /* Position from the top */
+    left: 10px; /* Position from the left */
+    height: 70px;
+    width: 70px;
+    background-color: #ceaa09;
+    border-radius: 50px;
+    position: absolute; /* Use absolute positioning to place it at the top-left */
+    transition: 0.4s ease;
+}
+
+	.sidebar.active{
+		height: 420px;
+	}
+
+
+		.togglebox{
+			position: relative;
+			display: block;
+			height: 70px;
+			width: 70px;
+			border-radius: 50px;
+		}
+
+		.togglebox.active .sicon{
+			width: 0;
+		}
+
+		.togglebox.active .sicon::before{
+			width: 40px;
+			transform-origin: right;
+			transform: translate(-25px, 4px) rotate(45deg);
+		}
+
+		.togglebox.active .sicon::after{
+			width: 40px;
+			transform-origin: right;
+			transform: translate(-25px, -5px) rotate(-45deg);
+		}
+
+		.sicon{
+			position: absolute;
+			height: 4px;
+			width: 35px;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background-color: #161d2c;
+			border-radius: 50px;
+		}
+		.sicon::before,.sicon::after{
+			position: absolute;
+			content: '';
+			height: 4px;
+			width: 35px;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			background-color: #161d2c;
+			border-radius: 50px;
+			transition: 0.3s;
+		}
+		.sicon::before{
+			top:12px;
+		}
+		.sicon::after{
+			bottom: 8px;
+		}
+		.navItems{
+			width: 100%;
+			visibility: hidden;
+		}
+		
+		.sidebar.active .navItems{
+			visibility: visible;
+		}
+		.sidebar.active .navItems li a i{
+			transform: scale(1);
+			transition: 0.4s ease;
+			transition-delay: calc(0.08 * var(--i));
+		}
+
+		.sidebar.active .navItems li:hover a i{
+			transition: 0.2s ease;
+			color: #a07708;
+		}
+
+		.navItems li{
+			list-style: none;
+		}
+
+		.navItems li a{
+			text-transform: uppercase;
+			color: #161d2c;
+			display: flex;
+			align-items: center;
+			text-decoration: none;
+		}
+		.navItems li a i{
+			position: relative;
+			display: block;
+			font-size: 18px;
+			color: #000000;
+			padding: 25px 0;
+			width: 100%;
+			text-align: center;
+			transform: scale(0);
+		}
+		.navItems li a span{
+			position: absolute;
+			color: #ffffff;
+			margin: 22px 0;
+			font-weight: 500;
+			letter-spacing: 2px;
+		}
+
+		.sidebar.active .navItems li a span{
+			transform: translateX(90px);
+			transition: 0.4s ease;
+			transition-delay: calc(0.08 * var(--g));
+		}
+
+		.sidebar.active .navItems li:hover a span{
+			transform: translateX(100px);
+			transition: 0.2s ease;
+			color: #f3b60e;
+			box-shadow: 0 2px 4px rgb(255, 255, 255); /* Box-shadow dengan transparansi agar tidak terlalu mengganggu teks */
+			padding: 10px;
+			border-radius: 8px;
+			font-weight: bold;
+		
+		}
+
+		.sidebar li a i::after{
+			position: absolute;
+			content: '';
+			top: 50%;
+			right: 0;
+			width: 0px;
+			height: 50%;
+			transform: translateY(-50%);
+			background-color: #a07708;
+			border-radius: 8px 0 0 8px;
+		}
+
+		.sidebar li:hover a i::after{
+			width: 8px;
+			transition: 0.3s;
+		}
+
+
 	</style>
 </head>
 <body>
@@ -158,12 +310,45 @@
 				}
 		};
 	</script>
-	
-
 <audio autoplay loop>
 	<source src="asset/backsound.mp3" type="audio/mpeg">
 	Browser kamu tidak mendukung tag audio ini.
   </audio>
+
+  <div class="sidebar">
+	<a href="#" class="togglebox">
+		<span class="sicon"></span>
+	</a>
+	<ul class="navItems">
+		<li>
+			<a href="">
+				<i class="fa fa-building" style="--i:1"></i>
+				<span style="--g:1">Beneficial Ownership</span>
+			</a>
+		</li>
+		<li>
+			<a href="">
+				<i class="fa fa-folder" style="--i:1"></i>
+				<span style="--g:2">ERP</span>
+			</a>
+		</li>
+		<li>
+			<a href="">
+				<i class="fa fa-globe" style="--i:1"></i>
+				<span style="--g:3">Home</span>
+			</a>
+		</li>
+	</ul>
+  </div>
+
+  <script>
+	var toggleClick = document.querySelector(".togglebox");
+	var sidebar = document.querySelector(".sidebar");
+	toggleClick.addEventListener('click', ()=>{
+		toggleClick.classList.toggle('active');
+		sidebar.classList.toggle('active');
+	})
+  </script>
 
   <div class="logout-container">
 	<button class="Btn">
