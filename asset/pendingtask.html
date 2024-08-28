@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../asset/style.css">
+    <link rel="icon" href="../img/task.png" type="image/x-icon"/>
+    <title>PENDING TASK</title>
+    <style>
+        /* Styles for body */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url(../img/gelbg.jpg);
+            background-size: cover;
+        }
+
+        /* Styles for header */
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .icons .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .header .icons .dropdown input[type="checkbox"] {
+            display: none;
+        }
+
+        .header .icons .dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, box-shadow 0.3s;
+    padding: 5px 0;
+    width: 285px;
+    max-height: 300px; /* Set a maximum height for scrolling */
+    overflow-y: auto; /* Add vertical scrollbar if content overflows */
+}
+
+/* Optional styling for scrollbar */
+.header .icons .dropdown .dropdown-content::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.header .icons .dropdown .dropdown-content::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Rounded corners for the scrollbar thumb */
+}
+
+.header .icons .dropdown .dropdown-content::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Darker color when hovering over the scrollbar thumb */
+}
+
+.header .icons .dropdown input[type="checkbox"]:checked ~ .dropdown-content {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+
+        .header .icons .dropdown .dropdown-content a {
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background-color 0.3s, padding 0.3s;
+        }
+
+        .header .icons .dropdown .dropdown-content a:hover {
+            background-color: #242320; /* Background color on hover */
+    color: #d49e07; /* Text color on hover */
+    padding: 8px 16px; /* Slightly increased padding on hover for a button-like effect */
+    border-radius: 8px;
+        }
+
+        .header .icons .dropdown .dropdown-content img {
+            margin-right: 8px;
+            height: 20px;
+            width: 20px;
+            border-radius: 4px;
+        }
+
+        .header .icons i {
+            color: white;
+            font-size: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .header .icons i:hover {
+            opacity: 0.8;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .header h1 a {
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Styles for container */
+        .container {
+            margin-top: 80px;
+        }
+
+        /* Styles for card */
+        .card {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-header {
+            background-color: rgba(236, 178, 19, 0.8);
+            color: #000000;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .card-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+                /* Styles for modal */
+                .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 10000px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: zoom 0.6s;
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+            to {
+                transform: scale(1)
+            }
+        }
+
+        .close {
+            color: white;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #999;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Popup Menu Styling */
+.popup {
+    --burger-line-width: 1.125em;
+    --burger-line-height: 0.125em;
+    --burger-offset: 0.625em;
+
+    --burger-color: #e9e9e9;
+    --burger-line-border-radius: 0.1875em;
+    --burger-diameter: 2.125em;
+    --burger-btn-border-radius: calc(var(--burger-diameter) / 2);
+    --burger-line-transition: .3s;
+    --burger-transition: all .1s ease-in-out;
+    --burger-hover-scale: 1.1;
+    --burger-active-scale: .95;
+    --burger-enable-outline-color: var(--burger-bg);
+    --burger-enable-outline-width: 0.125em;
+    --burger-enable-outline-offset: var(--burger-enable-outline-width);
+    /* nav */
+    --nav-padding-x: 0.25em;
+    --nav-padding-y: 0.625em;
+    --nav-border-radius: 0.375em;
+    --nav-border-color: #ccc;
+    --nav-border-width: 0.0625em;
+    --nav-shadow-color: rgba(0, 0, 0, .2);
+    --nav-shadow-width: 0 1px 5px;
+    --nav-bg: #eee;
+    --nav-font-family: Menlo, Roboto Mono, monospace;
+    --nav-font-size: 1.25em;
+    --nav-default-scale: .8;
+    --nav-active-scale: 1;
+    --nav-position-left: 0;
+    --nav-position-right: unset;
+
+}
+
+/* Popup Menu Styles */
+.popup {
+    display: inline-block;
+    text-rendering: optimizeLegibility;
+    position: relative;
+}
+
+.popup input {
+    display: none;
+}
+
+.burger {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    background: var(--burger-bg);
+    width: var(--burger-diameter);
+    height: var(--burger-diameter);
+    border-radius: var(--burger-btn-border-radius);
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: var(--burger-transition);
+    outline: var(--burger-enable-outline-width) solid transparent;
+    outline-offset: 0;
+}
+
+.burger span {
+    height: var(--burger-line-height);
+    width: var(--burger-line-width);
+    background: var(--burger-color);
+    border-radius: var(--burger-line-border-radius);
+    position: absolute;
+    transition: var(--burger-line-transition);
+}
+
+.burger span:nth-child(1) {
+    top: var(--burger-offset);
+}
+
+.burger span:nth-child(2) {
+    bottom: var(--burger-offset);
+}
+
+.burger span:nth-child(3) {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.popup-window {
+    transform: scale(var(--nav-default-scale));
+    visibility: hidden;
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    padding: var(--nav-padding-y) var(--nav-padding-x);
+    background: var(--nav-bg);
+    font-family: var(--nav-font-family);
+    color: white;
+    border-radius: var(--nav-border-radius);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    top: calc(var(--burger-diameter) + var(--burger-enable-outline-width) + var(--burger-enable-outline-offset));
+    left: var(--nav-position-left);
+    right: var(--nav-position-right);
+    transition: var(--burger-transition);
+    background-color: #333;
+
+    position: absolute;
+    top: 100%;
+
+    /* Allow scrolling when content overflows */
+    max-height: 300px; /* Set a maximum height for scrolling */
+    overflow-y: auto;
+    padding: 5px 0;
+    width: 350px;
+}
+
+/* Optional scrollbar styling */
+.popup-window::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.popup-window::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Rounded corners for the scrollbar thumb */
+}
+
+.popup-window::-webkit-scrollbar-thumb:hover {
+    background-color:    #555; /* Darker color when hovering over the scrollbar thumb */
+}
+
+.popup-window li {
+    padding: 8px 16px; /* Slightly increased padding on hover for a button-like effect */
+    border-radius: 8px;
+}
+
+.popup-window a:hover {
+    background-color: #242320; /* Background color on hover */
+    color: #d49e07; /* Text color on hover */
+    padding: 8px 16px; /* Slightly increased padding on hover for a button-like effect */
+    border-radius: 8px;
+    text-decoration: none; /* Remove underline on hover */
+}
+
+.popup-window a {
+    color: #ffffff; /* Text color on hover */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.popup-window ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.popup-window ul button {
+    outline: none;
+    width: 285px;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    color: var(--burger-color);
+    font-size: var(--nav-button-font-size);
+    padding: var(--nav-button-padding-y) var(--nav-button-padding-x);
+    white-space: nowrap;
+    border-radius: var(--nav-button-border-radius);
+    cursor: pointer;
+    column-gap: var(--nav-button-distance);
+}
+.popup-window hr {
+    margin: var(--underline-margin-y) 0;
+    border: none;
+    border-bottom: var(--underline-border-width) solid var(--underline-border-color);
+}
+
+/* Actions */
+.popup-window ul button:hover,
+.popup-window ul button:focus-visible,
+.popup-window ul button:hover svg,
+.popup-window ul button:focus-visible svg {
+    color: var(--nav-button-hover-text-color);
+    background: var(--nav-button-hover-bg);
+}
+
+.burger:hover {
+    transform: scale(var(--burger-hover-scale));
+}
+
+.burger:active {
+    transform: scale(var(--burger-active-scale));
+}
+
+.burger:focus:not(:hover) {
+    outline-color: var(--burger-enable-outline-color);
+    outline-offset: var(--burger-enable-outline-offset);
+}
+
+.popup input:checked + .burger span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.popup input:checked + .burger span:nth-child(2) {
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
+}
+
+.popup input:checked + .burger span:nth-child(3) {
+    transform: translateX(calc(var(--burger-diameter) * -1 - var(--burger-line-width)));
+}
+
+.popup input:checked ~ .popup-window {
+    transform: scale(var(--nav-active-scale));
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/* Styles for table container */
+.table-container {
+    overflow-x: auto; /* Enables horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS devices */
+    margin: 0 -15px; /* Adjust margins to ensure padding is applied correctly */
+    padding: 0 15px; /* Add padding for better spacing */
+}
+
+/* Styles for table */
+table {
+    width: 100%; /* Ensures the table takes up full width of container */
+    border-collapse: separate; /* Allows for border-spacing */
+    border-spacing: 0; /* Removes extra space between cells */
+    border-radius: 8px; /* Rounded corners for the entire table */
+    overflow: hidden; /* Hides overflow content to maintain rounded corners */
+}
+
+table th, table td {
+    border: 1px solid #ddd; /* Light gray border for table cells */
+    padding: 12px; /* Increased padding inside cells */
+    text-align: left; /* Align text to the left */
+    border-radius: 4px; /* Rounded corners for cells */
+}
+
+table th {
+    background-color: rgba(236, 178, 19, 0.8); /* Background color for table headers */
+    color: #000000; /* Text color for table headers */
+    font-weight: bold; /* Bold text for table headers */
+}
+
+table tbody tr {
+    transition: background-color 0.3s; /* Smooth transition for row color */
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Light gray for even rows */
+}
+
+table tbody tr:hover {
+    background-color: #e2e2e2; /* Slightly darker gray on hover */
+}
+
+/* Optional: Add a shadow effect for a subtle 3D appearance */
+table {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow effect */
+}
+
+/* Optional: Customize scrollbar for better appearance */
+.table-container::-webkit-scrollbar {
+    height: 12px; /* Height of the scrollbar */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar thumb */
+    border-radius: 6px; /* Rounded corners for the scrollbar thumb */
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Darker color when hovering over the scrollbar thumb */
+}
+
+
+
+    </style>
+</head>
+<body>
+    <audio autoplay loop>
+        <source src="../backsound.mp3" type="audio/mpeg">
+        Browser kamu tidak mendukung tag audio ini.
+      </audio>
+    <script>
+		// Check if the user is logged in
+		if(!localStorage.getItem('loggedIn')) {
+			window.location.href = '../login.html';
+		}
+
+		function logout() {
+			// Remove login status from local storage
+			localStorage.removeItem('loggedIn');
+			// Redirect to login page
+			window.location.href = '../login.html';
+		}
+	</script>
+    <script>
+		document.onkeydown = function(e) {
+				if (e.ctrlKey && 
+					(e.keyCode === 85 )) {
+					return false;
+				}
+		};
+	</script>
+    
+    <header class="header">
+        <div class="icons">
+            <a href="../index.html">
+                <i class="fa fa-home"></i>
+            </a>
+             <!-- Popup Menu Section -->
+             <label class="popup">
+                <input type="checkbox">
+                <div class="burger" tabindex="0">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <nav class="popup-window">
+                    <ul>
+                        <li>
+                            <a href="gel/gel.html">• GLOBAL ENERGI LESTARI</a>
+                        </li>
+                        <li>
+                            <a href="gsm/gsm.html">• GLOBAL SINERGI MARITIM</a>
+                        </li>
+                        <li>
+                            <a href="gsj/gsj.html">• GLOBAL SINERGI JASINDO</a>
+                        </li>
+                        <li>
+                            <a href="kmc/kmc.html">• KARINA MINING CONTRACTOR</a>
+                        </li>
+                        <li>
+                            <a href="epm/epm.html">• ERA PERKASA MINING</a>
+                        </li>
+                        <li>
+                            <a href="qin/qin.html">• QUASAR INTI NUSANTARA</a>
+                        </li>
+                        <li>
+                            <a href="ipm/ipm.html">• ILHAM PUTRA MAHKOTA</a>
+                        </li>
+                        <li>
+                            <a href="/asset/kiss/kiss.html">• KEMILAU INTI SAWIT SEJAHTERA</a>
+                        </li>
+                        <li>
+                            <a href="/asset/sln/sln.html">• SINAMARINDA LINTAS NUSANTARA</a>
+                        </li>
+                        <li>
+                            <a href="/asset/sip/sip.html">• SAMUDRA INTI PASIFIK</a>
+                        </li>
+                        <li>
+                            <a href="/asset/kks/kks.html">• KELINCI KARYA SAMOPERNA</a>
+                        </li>
+                        <li>
+                            <a href="/asset/iapp/iapp.html">• INDO AGRO PERMATA PERMAI</a>
+                        </li>
+                        <li>
+                            <a href="/asset/gcr/gcr.html">• GLOBAL COAL RESOURCE</a>
+                        </li>
+                        <li>
+                            <a href="/asset/rbm/rbm.html">• RIAU BUMI MINERAL</a>
+                        </li>
+                        <li>
+                            <a href="/asset/pac/pac.html">• PRIMA ALAM CEMERLANG</a>
+                        </li>
+                        <li>
+                            <a href="/asset/hml/hml.html">• HIJAU MAS LESTARI</a>
+                        </li>
+                        <li>
+                            <a href="/asset/gmp/gmp.html">• GLOBAL MEGA PALMINDO</a>
+                        </li>
+                        <li>
+                            <a href="/asset/gei/gei.html">• GLOBAL EKAWIRA LESTARI</a>
+                        </li>
+                        <li>
+                            <a href="/asset/gelm/gelm.html">• GLOBAL ENERGI LESTARI MINERAL</a>
+                        </li>
+                        <li>
+                            <a href="/asset/kmb/kmb.html">• KARYA MAJU BERSAMA</a>
+                        </li>
+                        <li>
+                            <a href="ter/ter.html">• TEMPIRAI ENERGY RESOURCE</a>
+                        </li>
+                        <li>
+                            <a href="../mi/mi.html">• MADHUCON INDONESIA</a>
+                        </li>
+                    </ul>                  
+                </nav>
+            </label>
+        </div>
+        <h1>
+            <a href="../index.html">
+                <img src="../img/task.png" alt="Logo" style="height: 50px; width: 50px;">
+            </a>
+            <br>PENDING TASK
+        </h1>
+    </header>
+
+    <section class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama PT</th>
+                            <th>Kekurangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Era Perkasa Mining</td>
+                            <td>blablabla</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Global Sinergi Jasindo</td>
+                            <td>blablabla</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal structure -->
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
+
+    <script>
+        // Get modal elements
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("modal-img");
+        var modalImg = document.getElementById("img01");
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the image, open the modal and display the image
+        img.onclick = function(){
+            modal.style.display = "flex";
+            modalImg.src = this.src;
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() { 
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>
