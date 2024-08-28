@@ -301,6 +301,9 @@
 		}
 	
 		function logout() {
+			// Pause the main sound
+			var mainSound = document.getElementById('main-sound');
+     	  	mainSound.pause();
 			// Play the logout sound
 			var audio = document.getElementById('logout-sound');
 			audio.play();
@@ -321,7 +324,7 @@
 		};
 	</script>
 
-	<audio autoplay loop>
+	<audio id="main-sound" autoplay loop>
 		<source src="asset/backsound.mp3" type="audio/mpeg">
 		Browser kamu tidak mendukung tag audio ini.
 	</audio>
