@@ -334,6 +334,12 @@
 		Browser kamu tidak mendukung tag audio ini.
 	</audio>
 
+	<audio id="respect-sound">
+		<source src="asset/respect.mp3" type="audio/mpeg">
+		Browser kamu tidak mendukung tag audio ini.
+	</audio>
+
+
 	<div class="sidebar">
 		<a href="#" class="togglebox">
 			<span class="sicon"></span>
@@ -367,6 +373,7 @@
 			toggleClick.classList.toggle('active');
 			sidebar.classList.toggle('active');
 		});
+		var audioRespect = document.getElementById("respect-sound")
 	</script>
 	
 	<div class="logout-container">
@@ -384,11 +391,19 @@
 
 	<div class="container">
 		<div class="icon">
-			<div class="imgBx active" style="--i:1;" data-id="content1">
-				<a href="asset/gel/gel.html">
+			<div class="imgBx active" style="--i:1;" data-id="content1" id="content1">
+				<a>
 					<img src="img/GEL.png">
 				</a>
 			</div>
+			<script>
+				document.getElementById("content1").addEventListener("click" , () => {
+					audioRespect.play();
+					audioRespect.addEventListener("ended" , () => {
+						window.location.href = "asset/gel/gel.html"
+					})
+				})
+			</script>
 			<div class="imgBx" style="--i:2;" data-id="content2">
 				<a href="asset/gsm/gsm.html">
 					<img src="img/GSM.png">
