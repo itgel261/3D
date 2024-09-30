@@ -337,6 +337,7 @@
 
 		
 	<script>
+		var mainSound = document.getElementById('main-sound');
 		var toggleClick = document.querySelector(".togglebox");
 		var sidebar = document.querySelector(".sidebar");
 		toggleClick.addEventListener('click', () => {
@@ -352,7 +353,7 @@
 	
 		function logout() {
 			// Pause the main sound
-			var mainSound = document.getElementById('main-sound');
+
      	  	mainSound.pause();
 			// Play the logout sound
 			var audio = document.getElementById('logout-sound');
