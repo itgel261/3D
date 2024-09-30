@@ -89,6 +89,11 @@
 </head>
 <body>
 
+	<audio id="welcome-sound" autoplay loop>
+		<source src="asset/welcome.mp3" type="audio/mpeg">
+		Browser kamu tidak mendukung tag audio ini.
+	</audio>
+
 	<script>
 		document.onkeydown = function(e) {
 				if (e.ctrlKey && 
@@ -124,6 +129,9 @@
 
             // Simple validation (Replace with actual validation)
             if(username === 'GELGROUP' && password === 'Glob@l2013') {
+
+				var audio = document.getElementById('welcome-sound');
+			audio.play();
                 // Save login status to local storage
                 localStorage.setItem('loggedIn', 'true');
                 // Redirect to index.html
