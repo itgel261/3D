@@ -292,37 +292,6 @@
 	</style>
 </head>
 <body>
-	
-
-	<script>
-		// Check if the user is logged in
-		if (!localStorage.getItem('loggedIn')) {
-			window.location.href = 'asset/login.html';
-		}
-	
-		function logout() {
-			// Pause the main sound
-			var mainSound = document.getElementById('main-sound');
-     	  	mainSound.pause();
-			// Play the logout sound
-			var audio = document.getElementById('logout-sound');
-			audio.play();
-			
-			// Wait for the sound to finish before logging out
-			audio.onended = function() {
-				// Remove login status from local storage
-				localStorage.removeItem('loggedIn');
-				// Redirect to login page
-				window.location.href = 'asset/login.html';
-			};
-		}
-	
-		document.onkeydown = function(e) {
-			if (e.ctrlKey && (e.keyCode === 85)) {
-				return false;
-			}
-		};
-	</script>
 
 	<audio id="main-sound" autoplay loop>
 		<source src="asset/backsound.mp3" type="audio/mpeg">
@@ -366,6 +335,7 @@
 		</ul>
 	</div>
 
+		
 	<script>
 		var toggleClick = document.querySelector(".togglebox");
 		var sidebar = document.querySelector(".sidebar");
@@ -374,6 +344,34 @@
 			sidebar.classList.toggle('active');
 		});
 		var audioRespect = document.getElementById("respect-sound")
+		
+		// Check if the user is logged in
+		if (!localStorage.getItem('loggedIn')) {
+			window.location.href = 'asset/login.html';
+		}
+	
+		function logout() {
+			// Pause the main sound
+			var mainSound = document.getElementById('main-sound');
+     	  	mainSound.pause();
+			// Play the logout sound
+			var audio = document.getElementById('logout-sound');
+			audio.play();
+			
+			// Wait for the sound to finish before logging out
+			audio.onended = function() {
+				// Remove login status from local storage
+				localStorage.removeItem('loggedIn');
+				// Redirect to login page
+				window.location.href = 'asset/login.html';
+			};
+		}
+	
+		document.onkeydown = function(e) {
+			if (e.ctrlKey && (e.keyCode === 85)) {
+				return false;
+			}
+		};
 	</script>
 	
 	<div class="logout-container">
@@ -397,7 +395,9 @@
 				</a>
 			</div>
 			<script>
+
 				document.getElementById("content1").addEventListener("click" , () => {
+					mainSound.pause();
 					audioRespect.play();
 					audioRespect.addEventListener("ended" , () => {
 						window.location.href = "asset/gel/gel.html"
@@ -749,6 +749,7 @@
 			</div>
 		</div>
 	</div>
+
 	<script>
 		let imgBx = document.querySelectorAll('.imgBx');
 		let contentBx = document.querySelectorAll('.contentBx');
@@ -758,7 +759,7 @@
 				for (let i = 0; i < contentBx.length; i++) {
 					contentBx[i].className = 'contentBx';
 				}
-				document.getElementById(this.dataset.id).className = 'contentBx active';
+				//document.getElementById(this.dataset.id).className = 'contentBx active';
 
 				for (let i = 0; i < imgBx.length; i++) {
 					imgBx[i].className = 'imgBx';
