@@ -308,6 +308,11 @@
 		Browser kamu tidak mendukung tag audio ini.
 	</audio>
 
+	<audio id="assemble-sound">
+		<source src="asset/assemble.mp3" type="audio/mpeg">
+		Browser kamu tidak mendukung tag audio ini.
+	</audio>
+
 
 	<div class="sidebar">
 		<a href="#" class="togglebox">
@@ -344,7 +349,7 @@
 			toggleClick.classList.toggle('active');
 			sidebar.classList.toggle('active');
 		});
-		var audioRespect = document.getElementById("respect-sound")
+		var audioAssemble = document.getElementById("assemble-sound")
 		
 		// Check if the user is logged in
 		if (!localStorage.getItem('loggedIn')) {
@@ -399,8 +404,8 @@
 
 				document.getElementById("contentgel").addEventListener("click" , () => {
 					mainSound.pause();
-					audioRespect.play();
-					audioRespect.addEventListener("ended" , () => {
+					audioAssemble.play();
+					audioAssemble.addEventListener("ended" , () => {
 						window.location.href = "asset/gel/gel.html"
 					})
 				})
