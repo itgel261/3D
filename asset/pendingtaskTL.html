@@ -10,11 +10,12 @@
 
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+        integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-      /* Modal styles */
+        /* Modal styles */
         .modal {
             display: none;
             /* Hidden by default */
@@ -40,7 +41,7 @@
             margin: 15% auto;
             /* 15% from the top and centered */
             padding: 20px;
-            border: 1px solid #888;
+            border: 1px solid #353535;
             width: 80%;
             /* Could be more or less, depending on screen size */
             border-radius: 8px;
@@ -50,9 +51,30 @@
             display: none;
         }
 
-        .body{
+        .body {
             margin-left: 100px;
             margin-right: 100px;
+        }
+
+        .completed-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        i.fas.fa-check-circle {
+            font-size: 100px;
+            /* Increase size */
+            position: absolute;
+            color: rgba(0, 128, 0, 0.2);
+            /* Light green for background effect */
+            z-index: 0;
+            /* Ensure it sits behind text */
+        }
+
+        .completed-text p {
+            position: relative;
+            z-index: 1;
+            /* Ensure text is above checkmark */
         }
     </style>
 </head>
@@ -129,7 +151,8 @@
 
 
 
-                <button type="submit" id="submit-button" class="bg-[#156bc1] text-white py-2 px-4 rounded-lg">Add Task</button>
+                <button type="submit" id="submit-button" class="bg-[#156bc1] text-white py-2 px-4 rounded-lg">Add
+                    Task</button>
             </form>
         </div>
     </div>

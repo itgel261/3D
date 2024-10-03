@@ -63,17 +63,45 @@ function getQueryParam(param) {
 
 
 function selectOption(option, timelineId, dropdownId) {
-    dropdownToggle[dropdownId].querySelector('span').textContent = option;
-    dropdownMenu[dropdownId].classList.add('hidden');
-
     // Fetch the full data object from the API
-    getData(id).then(data => {
+    getData(id).then(async data => {
         // Find the timeline entry by its id in the array
         const timelineEntry = data.timeline.find(timeline => timeline.id === timelineId.toString());
         if (timelineEntry) {
+            console.log('Selected Option:', timelineEntry);
             // Update the status of the found timeline entry
             if (option === 'Complete') {
                 timelineEntry.donetime = toGMT7(new Date().toISOString());
+            } else if (option === 'Hold') {
+                const { value: text } = await Swal.fire({
+                    input: "textarea",
+                    inputLabel: "Reason Hold",
+                    inputPlaceholder: "Type your message here...",
+                    inputAttributes: {
+                        "aria-label": "Type your message here"
+                    },
+                    showCancelButton: true
+                });
+                if (text) {
+                    timelineEntry.holdreason = text;
+                } else {
+                    return;
+                }
+            } else if (option === 'Canceled') {
+                const { value: text } = await Swal.fire({
+                    input: "textarea",
+                    inputLabel: "Reason Canceled",
+                    inputPlaceholder: "Type your message here...",
+                    inputAttributes: {
+                        "aria-label": "Type your message here"
+                    },
+                    showCancelButton: true
+                });
+                if (text) {
+                    timelineEntry.cancelreason = text;
+                } else {
+                    return;
+                }
             }
             timelineEntry.status = option;
 
@@ -81,6 +109,8 @@ function selectOption(option, timelineId, dropdownId) {
             editData(id, data).then(updatedResponse => {
                 console.log('Updated data:', updatedResponse);
             }).catch(err => console.error('Error updating data:', err)).finally(() => {
+                dropdownToggle[dropdownId].querySelector('span').textContent = option;
+                dropdownMenu[dropdownId].classList.add('hidden');
                 location.reload();
             })
 
@@ -156,7 +186,10 @@ function addTimeline(action, timelineEntryId) {
             note: taskNotes,
             starttime: toGMT72(startDate, starttime),
             deadline: toGMT72(targetDate, "00:00"),
-            status: 'On Going' // Default status
+            donetime: null,
+            status: 'On Going',
+            holdreason : null,
+            cancelreason : null
         };
 
         console.log('New Timeline Entry:', newTimelineEntry);
@@ -217,11 +250,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //get data from api by id
     getData(id).then(responseData => {
-        console.log('Response data:', responseData);
+        function divideTimelineByDay(timeline) {
+            return timeline.reduce((acc, entry) => {
+                const date = new Date(entry.starttime).toISOString().split('T')[0];
+                if (!acc[date]) {
+                    acc[date] = [];
+                }
+                acc[date].push(entry);
+                return acc;
+            }, {});
+        }
+
+        const timelineByDay = divideTimelineByDay(responseData.timeline);
+
         var tomorrow = new Date();
         tomorrow.setHours(0, 0, 0, 0);
-        console.log(tomorrow);
-        console.log(new Date(responseData.timeline[0].deadline));
         title.innerText += ' ' + responseData.taskname;
         for (let i = 0; i < responseData.timeline.length; i++) {
             const timeline = responseData.timeline[i];
@@ -232,11 +275,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const formattedDeadline = new Date(timeline.deadline).toLocaleDateString('en-GB', {
                 weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
             });
+            const timeCompleted = timeline.donetime ? new Date(timeline.donetime).toLocaleString('en-GB', {
+                weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+            }) : '';
+            console.log(timeline.deadline)
             let taskday = `
                 <div class="p-4 timelineitem" id=${timeline.id}>
                     <div
-                        class="flex items-stretch justify-between gap-4 rounded-xl bg-white p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
+                        class="flex items-stretch justify-between gap-4 rounded-xl bg-white p-4" style="border: 1px solid #353535;">
                         <div class="flex flex-[2_2_0px] flex-col gap-4">
+                            <i class="fas fa-check-circle self-center" style="display: ${timeline.status === 'Complete' ? 'block' : 'none'};"></i>
                             <div class="flex flex-col gap-1">
                                 <p class="text-[#111418] text-base font-bold leading-tight" id="date">${time} - ${formattedStartTime}</p>
                                 <p class="text-[#111418] text-base font-bold leading-tight" id="date" style="${tomorrow > new Date(timeline.deadline) ? 'color: red;' : ''}">Target Date : ${formattedDeadline}</p>
@@ -244,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <div class="relative inline-block text-left flex">
                                 <button
+                                ${timeline.status === 'Complete' ? 'disabled' : ''}
                                     class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f2f4] text-[#111418] pr-2 gap-1 text-sm font-medium leading-normal w-fit dropdown-toggle">
                                     <div class="text-[#111418]" data-icon="Check" data-size="18px" data-weight="regular">
                                     </div>
@@ -261,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                             On Going <i class="fas fa-running ml-auto"></i>
                                         </a>
                                         <a href="#" class="flex items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectOption('Canceled', ${timeline.id}, ${i})">
-                                            Not Complete
+                                            Canceled
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 24 24" class="ml-auto">
                                                 <path d="M19 6 6 19m0-13 13 13" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
                                             </svg>
@@ -274,16 +323,22 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="button-group ml-auto" style="display: flex;
                                         justify-content: flex-end; /* Menyusun tombol ke kanan */
                                         gap: 10px; /* Jarak antar tombol */">
-                                    <button class="align-right" id="edit-tl" onclick='subActionItem("edit", ${timeline.id}, ${i})'>
+                                    <button ${timeline.status === 'Complete' ? 'disabled' : ''} class="align-right" id="edit-tl" onclick='subActionItem("edit", ${timeline.id}, ${i})'>
                                         <i class="fas fa-pen"></i>
                                     </button>
-                                    <button class="ml-auto" id="del-tl" style="color:red;" onclick="subActionItem('delete', ${timeline.id}, ${i})">
+                                    <button ${timeline.status === 'Complete' ? 'disabled' : ''} class="ml-auto" id="del-tl" style="color:red;" onclick="subActionItem('delete', ${timeline.id}, ${i})">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="completed-text" style="display: ${timeline.status === 'Complete' ? 'block' : 'none'};">
-                                <p class="text-green-500">This task is completed. At : <b>${timeline.donetime}</b></p>
+                                <p class="text-green-500">This task is completed. At : <b>${timeCompleted}</b></p>
+                            </div>
+                            <div class="hold-reason-text" style="display: ${timeline.status === 'Hold' ? 'block' : 'none'};">
+                                <p class="text-yellow-500">This task is on hold. Reason: <b>${timeline.holdreason}</b></p>
+                            </div>
+                            <div class="canceled-reason-text" style="display: ${timeline.status === 'Canceled' ? 'block' : 'none'};">
+                                <p class="text-red-500">This task is canceled. Reason: <b>${timeline.cancelreason}</b></p>
                             </div>
                         </div>
                     </div>
