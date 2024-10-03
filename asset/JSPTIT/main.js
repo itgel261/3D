@@ -198,6 +198,14 @@ async function addToDo(event) {
 
 
 async function getTodos() {
+    Swal.fire({
+        title: 'Loading....',
+        text: 'Loading all data, please wait...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
     //Check: if item/s are there;
     let todos = await getData();
 
@@ -243,6 +251,7 @@ async function getTodos() {
             });
         }
     });
+    Swal.close();
 }
 
 

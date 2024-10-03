@@ -63,10 +63,33 @@ function getQueryParam(param) {
 
 
 function selectOption(option, timelineId, dropdownId) {
-    // Fetch the full data object from the API
+    let confirm = Swal.mixin({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, change it!"
+    })
     getData(id).then(async data => {
         // Find the timeline entry by its id in the array
         const timelineEntry = data.timeline.find(timeline => timeline.id === timelineId.toString());
+        function doUpdate() {
+            // Send the updated data back to the server
+            editData(id, data).then(updatedResponse => {
+                console.log('Updated data:', updatedResponse);
+            }).catch(err => console.error('Error updating data:', err)).finally(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Changes Successful',
+                    text: 'Your data has been changed'
+                }).then(() => {
+                    // Reload the window after success alert is confirmed
+                    window.location.reload();
+                })
+            })
+        }
         if (timelineEntry) {
             console.log('Selected Option:', timelineEntry);
             // Update the status of the found timeline entry
@@ -83,7 +106,13 @@ function selectOption(option, timelineId, dropdownId) {
                     showCancelButton: true
                 });
                 if (text) {
-                    timelineEntry.holdreason = text;
+                    confirm.fire().then((result) => {
+                        if (result.isConfirmed) {
+                            timelineEntry.holdreason = text;
+                            timelineEntry.status = option;
+                            doUpdate();
+                        }
+                    })
                 } else {
                     return;
                 }
@@ -98,26 +127,32 @@ function selectOption(option, timelineId, dropdownId) {
                     showCancelButton: true
                 });
                 if (text) {
-                    timelineEntry.cancelreason = text;
+                    confirm.fire().then((result) => {
+                        if (result.isConfirmed) {
+                            timelineEntry.cancelreason = text;
+                            timelineEntry.status = option;
+                            doUpdate();
+                        }
+                    })
                 } else {
                     return;
                 }
-            }
-            timelineEntry.status = option;
-
-            // Send the updated data back to the server
-            editData(id, data).then(updatedResponse => {
-                console.log('Updated data:', updatedResponse);
-            }).catch(err => console.error('Error updating data:', err)).finally(() => {
-                dropdownToggle[dropdownId].querySelector('span').textContent = option;
-                dropdownMenu[dropdownId].classList.add('hidden');
-                location.reload();
-            })
+            } else {
+                confirm.fire().then((result) => {
+                    if (result.isConfirmed) {
+                        timelineEntry.status = option;
+                        doUpdate();
+                    }
+                })
+            }         
 
         } else {
             console.error(`Timeline entry with id ${timelineId} not found`);
         }
     });
+
+    // Fetch the full data object from the API
+
 }
 
 function toGMT7(dateString) {
@@ -127,7 +162,14 @@ function toGMT7(dateString) {
     return localTime;
 }
 
+function removeTimelineEntryById(data, id) {
+    // Filter out the entry with the specified ID
+    data.timeline = data.timeline.filter(entry => entry.id !== id);
+    return data;
+}
+
 function subActionItem(action, timelineId, dropdownId) {
+    console.log('Action:', action, 'Timeline ID:', timelineId);
     // Edit and delete timeline item
     getData(id).then(data => {
         // Find the timeline entry by its id in the array
@@ -150,12 +192,25 @@ function subActionItem(action, timelineId, dropdownId) {
                 document.getElementById("start-date").value = toGMT7(timelineEntry.starttime).toISOString().split('T')[0];
                 document.getElementById("start-time").value = toGMT7(timelineEntry.starttime).toISOString().split('T')[1].slice(0, 5);
             } else if (action === 'delete') {
-                // Delete timeline item
-                data.timeline.splice(dropdownId, 1);
-                editData(id, data).then(updatedResponse => {
-                    console.log('Updated data:', updatedResponse);
-                    location.reload();
-                }).catch(err => console.error('Error updating data:', err));
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        data = removeTimelineEntryById(data, timelineId.toString());
+                        editData(id, data).then(updatedResponse => {
+                            console.log('Updated data:', updatedResponse);
+                        }).catch(err => console.error('Error updating data:', err));
+                        Swal.fire("Deleted!", "Your file has been deleted.", "success").then(() => {
+                            location.reload();
+                        })
+                    }
+                });
             }
         } else {
             console.error(`Timeline entry with id ${timelineId} not found`);
@@ -208,12 +263,29 @@ function addTimeline(action, timelineEntryId) {
         } else if (action === 'add') {
             // Add the new timeline entry to the timeline array
             data.timeline.push(newTimelineEntry);
+            Swal.fire({
+                title: 'Loading....',
+                text: 'Uploading data, please wait...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
         }
         // Send the updated data back to the server
         editData(id, data).then(updatedResponse => {
             console.log('Updated data with new timeline entry:', updatedResponse);
-            location.reload();
-        }).catch(err => console.error('Error updating data:', err));
+            //location.reload();
+        }).catch(err => console.error('Error updating data:', err)).finally(() => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Upload Successful',
+                text: 'Your data has been uploaded!'
+            }).then(() => {
+                // Reload the window after success alert is confirmed
+                window.location.reload();
+            })
+        });
     }).catch(err => console.error('Error fetching data:', err));
 
     // You can handle the task data here, e.g., save it or update the UI
@@ -255,6 +327,14 @@ function groupTimelineEntries(timelineData) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    Swal.fire({
+        title: 'Loading....',
+        text: 'Loading all data, please wait...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
     const title = document.getElementById('title-pendtask');
     const modal = document.getElementById("modal");
     const btn = document.getElementById("add-timeline-btn");
@@ -280,6 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //get data from api by id
     getData(id).then(responseData => {
+
         const groupedEntries = groupTimelineEntries(responseData.timeline);
         console.log(groupedEntries);
         title.innerText += ' ' + responseData.taskname;
@@ -313,8 +394,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             <i class="fas fa-check-circle self-center" style="display: ${timeline.status === 'Complete' ? 'block' : 'none'};"></i>
                             <div class="flex flex-col gap-1">
                                 <p class="text-[#111418] text-base font-bold leading-tight" id="date">${time} - ${formattedStartTime}</p>
-                                <p class="text-[#111418] text-base font-bold leading-tight" id="date" style="${tomorrow > new Date(timeline.deadline) ? 'color: red;' : ''}">Target Date : ${formattedDeadline}</p>
-                                <p class="text-[#637588] text-sm font-normal leading-normal" id="notes" >${timeline.note}</p>
+                                <p class="text-[#111418] text-base font-bold leading-tight" id="date" style="${tomorrow > new Date(timeline.deadline) && (!timeline.donetime || new Date(timeline.donetime) > new Date(timeline.deadline)) ? 'color: red;' : ''}">Target Date : ${formattedDeadline}</p>
+                                <p class="text-[#637588] text-lg font-normal leading-normal" id="notes" >${timeline.note}</p>
                             </div>
                             <div class="relative inline-block text-left flex">
                                 <button
@@ -349,16 +430,16 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="button-group ml-auto" style="display: flex;
                                         justify-content: flex-end; /* Menyusun tombol ke kanan */
                                         gap: 10px; /* Jarak antar tombol */">
-                                    <button ${timeline.status === 'Complete' ? 'disabled' : ''} class="align-right" id="edit-tl" onclick='subActionItem("edit", ${timeline.id}, ${i})'>
+                                    <button ${timeline.status === 'Complete' ? 'hidden' : ''} class="align-right" id="edit-tl" onclick='subActionItem("edit", ${timeline.id}, ${i})'>
                                         <i class="fas fa-pen"></i>
                                     </button>
-                                    <button ${timeline.status === 'Complete' ? 'disabled' : ''} class="ml-auto" id="del-tl" style="color:red;" onclick="subActionItem('delete', ${timeline.id}, ${i})">
+                                    <button ${timeline.status === 'Complete' ? 'hidden' : ''} class="ml-auto" id="del-tl" style="color:red;" onclick="subActionItem('delete', ${timeline.id}, ${i})">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="completed-text" style="display: ${timeline.status === 'Complete' ? 'block' : 'none'};">
-                                <p class="text-green-500">This task is completed. At : <b>${timeCompleted}</b></p>
+                                <p class="text-green-500">This task is completed at : <b>${timeCompleted}</b></p>
                             </div>
                             <div class="hold-reason-text" style="display: ${timeline.status === 'Hold' ? 'block' : 'none'};">
                                 <p class="text-yellow-500">This task is on hold. Reason: <b>${timeline.holdreason}</b></p>
@@ -405,5 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+    }).finally(() => {
+        Swal.close();
     });
 });
