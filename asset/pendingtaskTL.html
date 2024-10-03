@@ -1,0 +1,140 @@
+<html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+        href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900" />
+
+    <title>PENDING TASK</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      /* Modal styles */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            /* Could be more or less, depending on screen size */
+            border-radius: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .body{
+            margin-left: 100px;
+            margin-right: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="relative flex size-full min-h-screen flex-col bg-white justify-between group/design-root overflow-x-hidden"
+        style='font-family: "Work Sans", "Noto Sans", sans-serif;'>
+        <div>
+            <div class="flex items-center bg-white p-4 pb-2 justify-between">
+                <a href="pendingtaskIT.html" class="text-[#111418] flex size-12 shrink-0 items-center"
+                    data-icon="ArrowLeft" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor"
+                        viewBox="0 0 256 256">
+                        <path
+                            d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z">
+                        </path>
+                    </svg>
+                </a>
+                <h2 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12"
+                    id="title-pendtask">
+                    Timeline</h2>
+            </div>
+            <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5" id="dday">
+                Today</h2>
+            <div id="taskday-Container">
+
+
+
+            </div>
+
+
+        </div>
+        <div>
+            <div class="flex justify-center items-center">
+                <button id="add-timeline-btn"
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 flex-1 bg-[#156bc1] text-white gap-2 pl-5 text-base font-bold leading-normal tracking-[0.015em]">
+                    <div class="text-white" data-icon="Plus" data-size="24px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor"
+                            viewBox="0 0 256 256">
+                            <path
+                                d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="truncate">Add to Timeline</span>
+                </button>
+            </div>
+
+
+
+            <div class="h-5 bg-white"></div>
+        </div>
+    </div>
+
+
+    <!-- Modal Structure -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <h2 class="text-lg font-bold" id="modal-title">Add a Timeline</h2>
+            <form id="task-form">
+
+                <label for="task-notes" class="block mb-2">Task:</label>
+                <textarea id="task-notes" class="border border-gray-300 rounded-lg p-2 w-full mb-4" rows="3"></textarea>
+
+                <label for="target-date" class="block mb-2">Target Date:</label>
+                <input type="date" id="target-date" class="border border-gray-300 rounded-lg p-2 w-full mb-4" required>
+
+                <label for="start-date" class="block mb-2">Start Date:</label>
+                <input type="date" id="start-date" class="border border-gray-300 rounded-lg p-2 w-full mb-4" required>
+
+                <label for="start-time" class="block mb-2">Start Time:</label>
+                <input type="time" id="start-time" class="border border-gray-300 rounded-lg p-2 w-full mb-4" required>
+
+
+
+                <button type="submit" id="submit-button" class="bg-[#156bc1] text-white py-2 px-4 rounded-lg">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="JSPTIT//tl.js" type="text/javascript"> </script>
+</body>
+
+</html>
