@@ -188,8 +188,8 @@ function addTimeline(action, timelineEntryId) {
             deadline: toGMT72(targetDate, "00:00"),
             donetime: null,
             status: 'On Going',
-            holdreason : null,
-            cancelreason : null
+            holdreason: null,
+            cancelreason: null
         };
 
         console.log('New Timeline Entry:', newTimelineEntry);
@@ -224,6 +224,36 @@ function addTimeline(action, timelineEntryId) {
     document.getElementById("task-form").reset();
 }
 
+// Function to group timeline entries
+function groupTimelineEntries(timelineData) {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    const grouped = {
+        Today: [],
+        Yesterday: [],
+        ByDate: {}
+    };
+
+    timelineData.forEach(entry => {
+        const entryDate = new Date(entry.starttime);
+        if (entryDate.toDateString() === today.toDateString()) {
+            grouped.Today.push(entry);
+        } else if (entryDate.toDateString() === yesterday.toDateString()) {
+            grouped.Yesterday.push(entry);
+        } else {
+            const dateKey = entryDate.toISOString().split('T')[0];
+            if (!grouped.ByDate[dateKey]) {
+                grouped.ByDate[dateKey] = [];
+            }
+            grouped.ByDate[dateKey].push(entry);
+        }
+    });
+
+    return grouped;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const title = document.getElementById('title-pendtask');
     const modal = document.getElementById("modal");
@@ -250,36 +280,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //get data from api by id
     getData(id).then(responseData => {
-        function divideTimelineByDay(timeline) {
-            return timeline.reduce((acc, entry) => {
-                const date = new Date(entry.starttime).toISOString().split('T')[0];
-                if (!acc[date]) {
-                    acc[date] = [];
-                }
-                acc[date].push(entry);
-                return acc;
-            }, {});
-        }
-
-        const timelineByDay = divideTimelineByDay(responseData.timeline);
-
-        var tomorrow = new Date();
-        tomorrow.setHours(0, 0, 0, 0);
+        const groupedEntries = groupTimelineEntries(responseData.timeline);
+        console.log(groupedEntries);
         title.innerText += ' ' + responseData.taskname;
-        for (let i = 0; i < responseData.timeline.length; i++) {
-            const timeline = responseData.timeline[i];
-            const time = new Date(timeline.starttime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const formattedStartTime = new Date(timeline.starttime).toLocaleDateString('en-GB', {
-                weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
-            });
-            const formattedDeadline = new Date(timeline.deadline).toLocaleDateString('en-GB', {
-                weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
-            });
-            const timeCompleted = timeline.donetime ? new Date(timeline.donetime).toLocaleString('en-GB', {
-                weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
-            }) : '';
-            console.log(timeline.deadline)
-            let taskday = `
+
+        function createSection(title, entries) {
+            const section = document.createElement('div');
+            section.innerHTML = `<h2 class="text-[#111418] text-[25px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5" id="dday"><b>${title}</b></h2>   `;
+            var tomorrow = new Date();
+            tomorrow.setHours(0, 0, 0, 0);
+            title.innerText += ' ' + responseData.taskname;
+
+            entries.forEach(function (entry, i) {
+                const entryDiv = document.createElement('div');
+                const timeline = entry
+                console.log(entry)
+                const time = new Date(timeline.starttime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const formattedStartTime = new Date(timeline.starttime).toLocaleDateString('en-GB', {
+                    weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
+                });
+                const formattedDeadline = new Date(timeline.deadline).toLocaleDateString('en-GB', {
+                    weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
+                });
+                const timeCompleted = timeline.donetime ? new Date(timeline.donetime).toLocaleString('en-GB', {
+                    weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                }) : '';
+                let taskday = `
                 <div class="p-4 timelineitem" id=${timeline.id}>
                     <div
                         class="flex items-stretch justify-between gap-4 rounded-xl bg-white p-4" style="border: 1px solid #353535;">
@@ -343,8 +369,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 </div>`
-            taskdayContainer.innerHTML += taskday;
+                entryDiv.innerHTML = taskday
+                section.appendChild(entryDiv);
+            });
+
+            return section;
         }
+
+        // Append sections for Today, Yesterday, and other dates
+        if (groupedEntries.Today.length > 0) {
+            taskdayContainer.appendChild(createSection('Today', groupedEntries.Today));
+        }
+
+        if (groupedEntries.Yesterday.length > 0) {
+            taskdayContainer.appendChild(createSection('Yesterday', groupedEntries.Yesterday));
+        }
+
+        Object.keys(groupedEntries.ByDate).forEach(date => {
+            taskdayContainer.appendChild(createSection(date, groupedEntries.ByDate[date]));
+        });
+
         dropdownToggle = document.querySelectorAll('.dropdown-toggle');
         dropdownMenu = document.querySelectorAll('.dropdown-menu');
 
@@ -360,7 +404,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     dropdownMenu[index].classList.add('hidden');
                 }
             });
-
         });
     });
 });
