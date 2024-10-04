@@ -236,8 +236,9 @@ function addTimeline(action, timelineEntryId) {
     const targetDate = document.getElementById("target-date").value;
     const startDate = document.getElementById("start-date").value;
     const starttime = document.getElementById("start-time").value;
+    const indefinite = document.getElementById('indefinite-target-date').value;
 
-    console.log('Form Values:', { taskNotes, targetDate, startDate, starttime });
+    //console.log('Form Values:', { taskNotes, targetDate, startDate, starttime });
 
     // Fetch the current data object from the API
     getData(id).then(data => {
@@ -246,7 +247,7 @@ function addTimeline(action, timelineEntryId) {
             id: Date.now().toString(), // Generate a unique id based on the current timestamp
             note: taskNotes,
             starttime: toGMT72(startDate, starttime),
-            deadline: toGMT72(targetDate, "00:00"),
+            deadline: indefinite ? null : toGMT72(targetDate, "00:00"),
             donetime: null,
             status: 'On Going',
             holdreason: null,
@@ -262,7 +263,7 @@ function addTimeline(action, timelineEntryId) {
                 // Update the existing timeline entry
                 timelineEntry.note = newTimelineEntry.note;
                 timelineEntry.starttime = newTimelineEntry.starttime;
-                timelineEntry.deadline = newTimelineEntry.deadline;
+                timelineEntry.deadline = indefinite ? null : newTimelineEntry.deadline;
             } else {
                 console.error(`Timeline entry with id ${newTimelineEntry.id} not found`);
             }
@@ -302,7 +303,24 @@ function addTimeline(action, timelineEntryId) {
     document.getElementById("task-form").reset();
 }
 
-// Function to group timeline entries
+// Function to sort the data object by date keys from newest to oldest
+function sortDataByDate(data) {
+    // Extract and sort the keys (dates)
+    const sortedKeys = Object.keys(data).sort((a, b) => {
+        const dateA = new Date(a.split('-').reverse().join('-'));
+        const dateB = new Date(b.split('-').reverse().join('-'));
+        return dateB - dateA; // Sort in descending order
+    });
+
+    // Reconstruct the sorted object
+    const sortedData = {};
+    sortedKeys.forEach(key => {
+        sortedData[key] = data[key];
+    });
+
+    return sortedData;
+}
+
 function groupTimelineEntries(timelineData) {
     const today = new Date();
     const yesterday = new Date(today);
@@ -321,18 +339,38 @@ function groupTimelineEntries(timelineData) {
         } else if (entryDate.toDateString() === yesterday.toDateString()) {
             grouped.Yesterday.push(entry);
         } else {
-            const dateKey = entryDate.toISOString().split('T')[0];
+            const dateKey = entryDate.toLocaleDateString('en-GB').split('/').join('-');
+            
             if (!grouped.ByDate[dateKey]) {
                 grouped.ByDate[dateKey] = [];
             }
             grouped.ByDate[dateKey].push(entry);
+            // Sort the entries by date from newest to oldest
+            
         }
     });
+
+    const sortedData = sortDataByDate(grouped.ByDate);
+    grouped.ByDate = sortedData;
+
+    console.log('Grouped Entries:', grouped);
 
     return grouped;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('indefinite-target-date').addEventListener('change', function() {
+        const targetDateInput = document.getElementById('target-date');
+        if (this.checked) {
+            targetDateInput.disabled = true;
+            targetDateInput.style.backgroundColor = '#e0e0e0';
+            targetDateInput.style.color = '#a0a0a0';
+        } else {
+            targetDateInput.disabled = false;
+            targetDateInput.style.backgroundColor = '';
+            targetDateInput.style.color = '';
+        }
+    });
     Swal.fire({
         title: 'Loading....',
         text: 'Loading all data, please wait...',
@@ -368,10 +406,10 @@ document.addEventListener('DOMContentLoaded', () => {
     getData(id).then(responseData => {
 
         const groupedEntries = groupTimelineEntries(responseData.timeline);
-        console.log(groupedEntries);
         title.innerText += ' ' + responseData.taskname;
 
         function createSection(title, entries) {
+            console.log('title:', title, 'entries:', entries);
             const section = document.createElement('div');
             section.innerHTML = `<h2 class="text-[#111418] text-[25px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5" id="dday"><b>${title}</b></h2>   `;
             var tomorrow = new Date();
@@ -381,7 +419,6 @@ document.addEventListener('DOMContentLoaded', () => {
             entries.forEach(function (entry, i) {
                 const entryDiv = document.createElement('div');
                 const timeline = entry
-                console.log(entry)
                 const time = new Date(timeline.starttime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 const formattedStartTime = new Date(timeline.starttime).toLocaleDateString('en-GB', {
                     weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
@@ -400,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <i class="fas fa-check-circle self-center" style="display: ${timeline.status === 'Complete' ? 'block' : 'none'};"></i>
                             <div class="flex flex-col gap-1">
                                 <p class="text-[#111418] text-base font-bold leading-tight" id="date">${time} - ${formattedStartTime}</p>
-                                <p class="text-[#111418] text-base font-bold leading-tight" id="date" style="${tomorrow > new Date(timeline.deadline) && (!timeline.donetime || new Date(timeline.donetime) > new Date(timeline.deadline)) ? 'color: red;' : ''}">Target Date : ${formattedDeadline}</p>
+                                <p class="text-[#111418] text-base font-bold leading-tight" id="date" style="${tomorrow > new Date(timeline.deadline) && (!timeline.donetime || new Date(timeline.donetime) > new Date(timeline.deadline)) ? 'color: red;' : ''}">Target Date : ${timeline.deadline ? formattedDeadline : 'Indefinitely'}</p>
                                 <p class="text-[#637588] text-lg font-normal leading-normal" id="notes" >${timeline.note}</p>
                             </div>
                             <div class="relative inline-block text-left flex">
