@@ -94,7 +94,13 @@ function selectOption(option, timelineId, dropdownId) {
             console.log('Selected Option:', timelineEntry);
             // Update the status of the found timeline entry
             if (option === 'Complete') {
-                timelineEntry.donetime = toGMT7(new Date().toISOString());
+                confirm.fire().then((result) => {
+                    if (result.isConfirmed) {
+                        timelineEntry.donetime = toGMT7(new Date().toISOString());
+                        timelineEntry.status = option;
+                        doUpdate();
+                    }
+                })
             } else if (option === 'Hold') {
                 const { value: text } = await Swal.fire({
                     input: "textarea",
