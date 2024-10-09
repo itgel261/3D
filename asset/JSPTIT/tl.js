@@ -237,7 +237,6 @@ function formatNoteWithLineBreaks(note) {
 
 function addTimeline(action, timelineEntryId) {
     const taskNotes = document.getElementById("task-notes").value;
-    const formattedNotes = displayNoteWithNewlines(taskNotes);
     const targetDate = document.getElementById("target-date").value;
     const startDate = document.getElementById("start-date").value;
     const starttime = document.getElementById("start-time").value;
@@ -252,7 +251,7 @@ function addTimeline(action, timelineEntryId) {
         // Create a new timeline entry
         const newTimelineEntry = {
             id: Date.now().toString(), // Generate a unique id based on the current timestamp
-            note: formattedNotes,
+            note: taskNotes,
             starttime: toGMT72(startDate, starttime),
             deadline: indefinite ? null : toGMT72(targetDate, "00:00"),
             donetime: null,
@@ -524,8 +523,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dropdownToggle = document.querySelectorAll('.dropdown-toggle');
         dropdownMenu = document.querySelectorAll('.dropdown-menu');
 
-        
-        
+
+
 
         dropdownToggle.forEach((toggle, index) => {
             toggle.addEventListener('click', () => {
