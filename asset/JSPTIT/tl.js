@@ -150,7 +150,7 @@ function selectOption(option, timelineId, dropdownId) {
                         doUpdate();
                     }
                 })
-            }         
+            }
 
         } else {
             console.error(`Timeline entry with id ${timelineId} not found`);
@@ -231,12 +231,19 @@ function toGMT72(dateString, timeString) {
     return localTime.toISOString().slice(0, -1); // Remove the 'Z' at the end
 }
 
+function formatNoteWithLineBreaks(note) {
+    return note.replace(/\n/g, '<br>');
+}
+
 function addTimeline(action, timelineEntryId) {
     const taskNotes = document.getElementById("task-notes").value;
+    const formattedNotes = displayNoteWithNewlines(taskNotes);
     const targetDate = document.getElementById("target-date").value;
     const startDate = document.getElementById("start-date").value;
     const starttime = document.getElementById("start-time").value;
-    const indefinite = document.getElementById('indefinite-target-date').value;
+    const indefinite = document.getElementById('indefinite-target-date').checked;
+    console.log('Indefinite:', indefinite);
+
 
     //console.log('Form Values:', { taskNotes, targetDate, startDate, starttime });
 
@@ -245,7 +252,7 @@ function addTimeline(action, timelineEntryId) {
         // Create a new timeline entry
         const newTimelineEntry = {
             id: Date.now().toString(), // Generate a unique id based on the current timestamp
-            note: taskNotes,
+            note: formattedNotes,
             starttime: toGMT72(startDate, starttime),
             deadline: indefinite ? null : toGMT72(targetDate, "00:00"),
             donetime: null,
@@ -340,13 +347,13 @@ function groupTimelineEntries(timelineData) {
             grouped.Yesterday.push(entry);
         } else {
             const dateKey = entryDate.toLocaleDateString('en-GB').split('/').join('-');
-            
+
             if (!grouped.ByDate[dateKey]) {
                 grouped.ByDate[dateKey] = [];
             }
             grouped.ByDate[dateKey].push(entry);
             // Sort the entries by date from newest to oldest
-            
+
         }
     });
 
@@ -359,7 +366,7 @@ function groupTimelineEntries(timelineData) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('indefinite-target-date').addEventListener('change', function() {
+    document.getElementById('indefinite-target-date').addEventListener('change', function () {
         const targetDateInput = document.getElementById('target-date');
         if (this.checked) {
             targetDateInput.disabled = true;
@@ -413,12 +420,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const section = document.createElement('div');
             section.innerHTML = `<h2 class="text-[#111418] text-[25px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5" id="dday"><b>${title}</b></h2>   `;
             var tomorrow = new Date();
-            tomorrow.setHours(0, 0, 0, 0);
+            tomorrow.setHours(23, 0, 0, 0);
             title.innerText += ' ' + responseData.taskname;
 
             entries.forEach(function (entry, i) {
                 const entryDiv = document.createElement('div');
                 const timeline = entry
+                const formattedNote = formatNoteWithLineBreaks(timeline.note);
                 const time = new Date(timeline.starttime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 const formattedStartTime = new Date(timeline.starttime).toLocaleDateString('en-GB', {
                     weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
@@ -437,8 +445,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             <i class="fas fa-check-circle self-center" style="display: ${timeline.status === 'Complete' ? 'block' : 'none'};"></i>
                             <div class="flex flex-col gap-1">
                                 <p class="text-[#111418] text-base font-bold leading-tight" id="date">${time} - ${formattedStartTime}</p>
-                                <p class="text-[#111418] text-base font-bold leading-tight" id="date" style="${tomorrow > new Date(timeline.deadline) && (!timeline.donetime || new Date(timeline.donetime) > new Date(timeline.deadline)) ? 'color: red;' : ''}">Target Date : ${timeline.deadline ? formattedDeadline : 'Indefinitely'}</p>
-                                <p class="text-[#637588] text-lg font-normal leading-normal" id="notes" >${timeline.note}</p>
+                                <p class="text-[#111418] text-base font-bold leading-tight" id="date" style="${tomorrow > new Date(timeline.deadline) && (!timeline.donetime || new Date(timeline.donetime) > new Date(timeline.deadline).setHours(23)) ? 'color: red;' : ''}">Target Date : ${timeline.deadline ? formattedDeadline : 'Indefinitely'}</p>
+                                <p class="text-[#637588] text-lg font-normal leading-normal" id="notes">${formattedNote}</p>
                             </div>
                             <div class="relative inline-block text-left flex">
                                 <button
@@ -515,6 +523,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         dropdownToggle = document.querySelectorAll('.dropdown-toggle');
         dropdownMenu = document.querySelectorAll('.dropdown-menu');
+
+        
+        
 
         dropdownToggle.forEach((toggle, index) => {
             toggle.addEventListener('click', () => {
